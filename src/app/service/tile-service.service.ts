@@ -18,7 +18,7 @@ export class TileServiceService {
     paddingHorizontal: number;
     paddingVertical: number;
     screen_size: screenSize;
-    tileWidth: number;
+    tileSize: number;
     widthScreen: number;
     heightScreen: number;
     constPadding: number;
@@ -28,7 +28,7 @@ export class TileServiceService {
     paddingHorizontal: 0,
     paddingVertical: 0,
     screen_size: screenSize.desktopLarge,
-    tileWidth: 150,
+    tileSize: 150,
     widthScreen: window.innerWidth ,
     heightScreen: window.innerHeight,
     constPadding: 30,
@@ -50,7 +50,6 @@ export class TileServiceService {
     this.currentWindow  = Math.floor(elm.scrollLeft / elm.offsetWidth);
     //console.log(this.currentWindow);
   }
-
 
   resetSize(){
     // updating the screen width based on the size
@@ -75,7 +74,6 @@ export class TileServiceService {
 
   }
 
-
   setSize(size:number){
     let width = this.state().widthScreen - (2*this.state().constPadding);
     let height = this.state().heightScreen - (2*this.state().constPadding);
@@ -83,7 +81,7 @@ export class TileServiceService {
     this.state().countRow = Math.floor(height / size);
     this.state().paddingHorizontal = ((width- (Math.floor(width / size) * size)) / 2 ) + this.state().constPadding ;
     this.state().paddingVertical = ((height -(Math.floor(height/ size) * size)) / 2) + this.state().constPadding;
-    this.state().tileWidth =  size;
+    this.state().tileSize =  size;
   }
 
   getScreenSize():screenSize{

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, inject, OnChanges} from '@angular/core';
 import {TileServiceService} from '../../service/tile-service.service';
 import {CdkDrag, CdkDragDrop, CdkDragRelease} from '@angular/cdk/drag-drop';
-import {ArrangementService} from '../../service/arrangment.service';
+import {ArrangementService, tileType} from '../../service/arrangment.service';
 
 
 @Component({
@@ -36,7 +36,8 @@ export class WindowComponent implements AfterViewInit {
       clearTimeout(this.isResizeS);
       this.isResizeS = setTimeout(() => {
         this.tileService.resetSize()
-        this.arrangService.reorderTiles()
+        // this.arrangService.reorderTiles()
+        this.arrangService.rearrangeTiles()
       } , 100)
     })
 
@@ -44,9 +45,7 @@ export class WindowComponent implements AfterViewInit {
   constructor() {
     this.totalElement = this.tileService.state().countRow * this.tileService.state().countColumn;
   }
-
-
-  onRelease(event:CdkDragRelease , idList:number , pos:number) {
+  onRelease(event:CdkDragRelease , idList:number , pos:number[] , type:tileType) {
     let dropElement = event.source.element.nativeElement;
 
     const rect = dropElement.getBoundingClientRect();
@@ -55,8 +54,39 @@ export class WindowComponent implements AfterViewInit {
       y: rect.top - this.tileService.state().paddingVertical
     };
 
-    this.arrangService.snapTile(event.source.getFreeDragPosition() , currPost , idList , pos)
+    this.arrangService.snapTile(event.source.getFreeDragPosition() , currPost , idList , pos , type)
   }
+  getTileSize(type : tileType) {
+    switch(type) {
+      case tileType.big:
+        return {
+          "width": this.tileService.state().tileSize * 2 ,
+          "height": this.tileService.state().tileSize * 2
+        };
+      case tileType.horizontal:
 
-
+        return {
+          "width": this.tileService.state().tileSize * 2,
+          "height": this.tileService.state().tileSize
+        };
+      case tileType.vertical:
+        return {
+          "width": this.tileService.state().tileSize ,
+          "height": this.tileService.state().tileSize * 2
+        };
+      case tileType.xl:
+        return {
+          "width": this.tileService.state().tileSize*3 ,
+          "height": this.tileService.state().tileSize * 2
+        };
+      default:
+        return {
+          "width": this.tileService.state().tileSize,
+          "height": this.tileService.state().tileSize
+        };
+    }
+  }
+  onDragStart(pos: number[]) {
+    this.arrangService.removePosition(pos);
+  }
 }
