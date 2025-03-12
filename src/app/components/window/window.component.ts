@@ -4,6 +4,17 @@ import {CdkDrag, CdkDragDrop, CdkDragRelease} from '@angular/cdk/drag-drop';
 import {ArrangementService, tileType} from '../../service/arrangment.service';
 
 
+
+
+enum mouseAction {
+  down,
+  up,
+  click,
+}
+
+
+
+
 @Component({
   selector: 'app-window',
   imports: [
@@ -15,6 +26,7 @@ import {ArrangementService, tileType} from '../../service/arrangment.service';
 export class WindowComponent implements AfterViewInit {
   isScrolling : any;
   isResizeS:any;
+  isAnimation:any;
   totalElement : number = 0;
 
   tileService:TileServiceService = inject(TileServiceService);
@@ -88,5 +100,24 @@ export class WindowComponent implements AfterViewInit {
   }
   onDragStart(pos: number[]) {
     this.arrangService.removePosition(pos);
+
+  }
+
+  onMouseDown(event: MouseEvent , tile_idx:number ) {
+    let target = event.target as HTMLElement;
+    clearTimeout(this.isAnimation);
+    this.isAnimation = setTimeout(() => {
+      target.classList.add('pop-animation');
+      this.arrangService.changeZIndex(tile_idx , 100)
+    } , 400)
+
+  }
+
+
+  onMouseUp(event: MouseEvent , tile_idx:number) {
+    let target = event.target as HTMLElement;
+    clearTimeout(this.isAnimation);
+    target.classList.remove('pop-animation');
+    this.arrangService.changeZIndex(tile_idx , 0)
   }
 }

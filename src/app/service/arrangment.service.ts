@@ -19,6 +19,7 @@ type tile = {
   position: position,
   index : number[],
   type : tileType,
+  zIndex: number,
 }
 
 
@@ -42,6 +43,7 @@ export class ArrangementService {
         },
         index: [i],
         type: randomTileType,
+        zIndex: 0,
 
       }
       this.tiles().push(newTile);
@@ -201,6 +203,12 @@ export class ArrangementService {
           this.get1D_pos({x:pos.x + (2*this.tileService.state().tileSize), y: pos.y + this.tileService.state().tileSize}),
         ]
     }
+  }
+
+  changeZIndex(idx:number , layer:number){
+    let tempTiles = this.tiles()
+    tempTiles[idx].zIndex = layer
+    this.tiles.set(tempTiles)
   }
 
 
