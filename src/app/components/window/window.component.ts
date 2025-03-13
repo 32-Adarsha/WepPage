@@ -111,6 +111,11 @@ export class WindowComponent implements AfterViewInit {
       this.arrangService.changeZIndex(window , idx , 100)
     } , 400)
 
+    document.addEventListener('mouseup', (event: MouseEvent) => {
+      clearTimeout(this.isAnimation);
+      target.classList.remove('pop-animation');
+    })
+
   }
 
 

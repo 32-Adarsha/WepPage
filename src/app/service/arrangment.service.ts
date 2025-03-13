@@ -1,6 +1,7 @@
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {TileServiceService} from './tile-service.service';
 import {single} from 'rxjs';
+import {DataService} from './data.service';
 
 
 // types and field
@@ -32,6 +33,7 @@ export class ArrangementService {
   displayTiles : WritableSignal<tile[][]> = signal([])
   tiles: WritableSignal<tile[]> = signal([]);
   tileService = inject(TileServiceService);
+  dataService = inject(DataService);
   occupiedSpace:number[][] = []
 
 
@@ -51,7 +53,6 @@ export class ArrangementService {
         zIndex: 0,
 
       }
-      this.tiles().push(newTile);
       this.allTile.push(newTile);
 
     }
@@ -72,6 +73,7 @@ export class ArrangementService {
     let newTiles = this.tiles()
     let newPos =  this.nearestPosition(currPos)
     let item_positions = this.getTileOccupancy(type , newPos)
+    let dimension = this.getDimension()
     if(this.isOccupied(item_positions , window)){
       newTiles[idList].position = pevPos
       this.addPosition(newTiles[idList].index , window)
@@ -79,6 +81,8 @@ export class ArrangementService {
       newTiles[idList].position = newPos;
       newTiles[idList].index = item_positions;
       this.updatePosition(pos ,item_positions , window )
+      this.dataService.saveData<tile[][]>(dimension, this.displayTiles())
+      this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
     }
     this.tiles.set(newTiles);
   }
@@ -119,21 +123,35 @@ export class ArrangementService {
   }
 
   setTileInWindow(){
-    let temp_tiles = this.allTile;
-    let count = 0
-    this.displayTiles.set([])
-    while(temp_tiles.length > 0){
-      this.occupiedSpace.push([])
-      let result = this.rearrangeTiles(temp_tiles , this.occupiedSpace.length - 1);
-      this.displayTiles().push(result.set)
-      temp_tiles = result.left
+    let dimension = this.getDimension()
+    if(this.dataService.getData<tile[][]>(dimension) != null){
+      this.displayTiles.set(this.dataService.getData<tile[][]>(dimension)!)
+      this.occupiedSpace = this.dataService.getData<number[][]>(dimension+"_o")!
+    } else {
+      let temp_tiles = this.allTile;
+      let count = 0
+      this.displayTiles.set([])
+      this.occupiedSpace = []
+      while (temp_tiles.length > 0) {
+        this.occupiedSpace.push([])
+        let result = this.rearrangeTiles(temp_tiles, this.occupiedSpace.length - 1);
+        this.displayTiles().push(result.set)
+        temp_tiles = result.left
 
-      count++
+        count++
+      }
+
+      let new_windows_tile = this.displayTiles()
+      this.displayTiles.set(new_windows_tile)
+
+      this.dataService.saveData<tile[][]>(dimension, new_windows_tile)
+      this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
     }
 
-    let new_windows_tile = this.displayTiles()
-    this.displayTiles.set(new_windows_tile)
+  }
 
+  getDimension(){
+    return this.tileService.state().countColumn.toString() + this.tileService.state().countRow.toString()
   }
 
 
