@@ -12,7 +12,7 @@ enum screenSize {
   providedIn: 'root'
 })
 export class TileServiceService {
-  currentWindow: number= 0;
+  currentWindow: WritableSignal<number> = signal(0)
 
   state: WritableSignal<{
     paddingHorizontal: number;
@@ -47,7 +47,7 @@ export class TileServiceService {
 
   onScroll(event:Event){
     let elm = event.target as HTMLElement;
-    this.currentWindow  = Math.floor(elm.scrollLeft / elm.offsetWidth);
+    this.currentWindow.set( Math.round(elm.scrollLeft / elm.offsetWidth));
     //console.log(this.currentWindow);
   }
 

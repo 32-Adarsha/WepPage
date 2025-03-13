@@ -39,7 +39,7 @@ export class WindowComponent implements AfterViewInit {
     let elm = document.getElementById('xWindow')!;
     elm.addEventListener('scroll', (event) => {
         clearTimeout(this.isScrolling);
-        this.isScrolling = setTimeout(() => this.tileService.onScroll(event), 100)
+        this.isScrolling = setTimeout(() => this.tileService.onScroll(event), 1)
       }
     );
 
@@ -49,7 +49,7 @@ export class WindowComponent implements AfterViewInit {
       this.isResizeS = setTimeout(() => {
         this.tileService.resetSize()
         // this.arrangService.reorderTiles()
-        this.arrangService.rearrangeTiles()
+        this.arrangService.setTileInWindow()
       } , 100)
     })
 
@@ -57,7 +57,7 @@ export class WindowComponent implements AfterViewInit {
   constructor() {
     this.totalElement = this.tileService.state().countRow * this.tileService.state().countColumn;
   }
-  onRelease(event:CdkDragRelease , idList:number , pos:number[] , type:tileType) {
+  onRelease(event:CdkDragRelease , idList:number , pos:number[] , type:tileType , window:number) {
     let dropElement = event.source.element.nativeElement;
 
     const rect = dropElement.getBoundingClientRect();
@@ -66,7 +66,7 @@ export class WindowComponent implements AfterViewInit {
       y: rect.top - this.tileService.state().paddingVertical
     };
 
-    this.arrangService.snapTile(event.source.getFreeDragPosition() , currPost , idList , pos , type)
+    this.arrangService.snapTile(event.source.getFreeDragPosition() , currPost , idList , pos , type , window);
   }
   getTileSize(type : tileType) {
     switch(type) {
@@ -98,26 +98,33 @@ export class WindowComponent implements AfterViewInit {
         };
     }
   }
-  onDragStart(pos: number[]) {
-    this.arrangService.removePosition(pos);
+  onDragStart(pos: number[] , window:number) {
+    this.arrangService.removePosition(pos , window);
 
   }
 
-  onMouseDown(event: MouseEvent , tile_idx:number ) {
+  onMouseDown(event: MouseEvent|TouchEvent , window:number , idx:number ) {
     let target = event.target as HTMLElement;
     clearTimeout(this.isAnimation);
     this.isAnimation = setTimeout(() => {
       target.classList.add('pop-animation');
-      this.arrangService.changeZIndex(tile_idx , 100)
+      this.arrangService.changeZIndex(window , idx , 100)
     } , 400)
 
   }
 
 
-  onMouseUp(event: MouseEvent , tile_idx:number) {
+  onMouseUp(event: MouseEvent|TouchEvent , window:number , idx:number) {
     let target = event.target as HTMLElement;
     clearTimeout(this.isAnimation);
     target.classList.remove('pop-animation');
-    this.arrangService.changeZIndex(tile_idx , 0)
+    this.arrangService.changeZIndex(window,idx, 0)
   }
+
+  getLeftPosition(idx: number) {
+    return idx*100;
+  }
+
+  protected readonly Array = Array;
+  protected readonly console = console;
 }

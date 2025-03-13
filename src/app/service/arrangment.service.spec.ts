@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
+// @ts-ignore
 import { ArrangmentService } from './arrangment.service';
 
 describe('ArrangmentService', () => {

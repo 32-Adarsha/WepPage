@@ -1,5 +1,6 @@
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {TileServiceService} from './tile-service.service';
+import {single} from 'rxjs';
 
 
 // types and field
@@ -27,15 +28,19 @@ type tile = {
   providedIn: 'root'
 })
 export class ArrangementService {
-  allTiles: tile[] = [];
+  allTile:tile[] = []
+  displayTiles : WritableSignal<tile[][]> = signal([])
   tiles: WritableSignal<tile[]> = signal([]);
   tileService = inject(TileServiceService);
-  occupiedSpace:number[] = []
+  occupiedSpace:number[][] = []
+
+
+
 
   constructor() {
-    let tileTypeArray:tileType[] = [tileType.small , tileType.horizontal , tileType.vertical , tileType.big , tileType.xl]
+    let tileTypeArray:tileType[] = [tileType.small , tileType.small , tileType.small , tileType.horizontal , tileType.vertical , tileType.big , tileType.xl]
     for (let i = 0; i < 10; i++) {
-      let randomTileType = Math.floor(Math.random()*tileTypeArray.length);
+      let randomTileType = tileTypeArray[Math.floor(Math.random()*tileTypeArray.length)];
       let newTile = {
         position: {
           x: 0,
@@ -47,10 +52,12 @@ export class ArrangementService {
 
       }
       this.tiles().push(newTile);
+      this.allTile.push(newTile);
 
     }
 
-    this.rearrangeTiles()
+
+    this.setTileInWindow()
   }
 
   get2DArray(pos: number):position {
@@ -61,17 +68,17 @@ export class ArrangementService {
   }
 
 
-  snapTile(pevPos:position,currPos: position , idList:number , pos:number[] , type : tileType) {
+  snapTile(pevPos:position,currPos: position , idList:number , pos:number[] , type : tileType , window:number) {
     let newTiles = this.tiles()
     let newPos =  this.nearestPosition(currPos)
     let item_positions = this.getTileOccupancy(type , newPos)
-    if(this.isOccupied(item_positions)){
+    if(this.isOccupied(item_positions , window)){
       newTiles[idList].position = pevPos
-      this.addPosition(newTiles[idList].index)
+      this.addPosition(newTiles[idList].index , window)
     } else {
       newTiles[idList].position = newPos;
       newTiles[idList].index = item_positions;
-      this.updatePosition(pos ,item_positions )
+      this.updatePosition(pos ,item_positions , window )
     }
     this.tiles.set(newTiles);
   }
@@ -87,33 +94,52 @@ export class ArrangementService {
     return (Math.round(pos.x / this.tileService.state().tileSize) + (Math.round(pos.y / this.tileService.state().tileSize) * this.tileService.state().countColumn));
   }
 
-  isOccupied(pos:number[]): boolean {
+  isOccupied(pos:number[] , window:number): boolean {
     for(let i = 0; i < pos.length; i++) {
-      if(this.occupiedSpace.includes(pos[i])){
+      if(this.occupiedSpace[window].includes(pos[i])){
         return true;
       }
     }
     return false;
   }
 
-  updatePosition(prevPos:number[] , newPos:number[]) {
-    this.addPosition(newPos);
-    this.removePosition(prevPos)
+  updatePosition(prevPos:number[] , newPos:number[] , window:number) {
+    this.addPosition(newPos , window);
+    this.removePosition(prevPos , window);
   }
 
-  addPosition(pos:number[]) {
+  addPosition(pos:number[] , window:number) {
     pos.forEach(item => {
-      this.occupiedSpace.push(item)
+      this.occupiedSpace[window].push(item)
     })
   }
 
-  removePosition(pos:number[]){
-    this.occupiedSpace = this.occupiedSpace.filter(item => !pos.includes(item));
+  removePosition(pos:number[] , window:number) {
+    this.occupiedSpace[window] = this.occupiedSpace[window].filter(item => !pos.includes(item));
   }
 
-  rearrangeTiles():void {
-    this.occupiedSpace = []
-    let tempTiles: tile[] = this.tiles()
+  setTileInWindow(){
+    let temp_tiles = this.allTile;
+    let count = 0
+    this.displayTiles.set([])
+    while(temp_tiles.length > 0){
+      this.occupiedSpace.push([])
+      let result = this.rearrangeTiles(temp_tiles , this.occupiedSpace.length - 1);
+      this.displayTiles().push(result.set)
+      temp_tiles = result.left
+
+      count++
+    }
+
+    let new_windows_tile = this.displayTiles()
+    this.displayTiles.set(new_windows_tile)
+
+  }
+
+
+
+  rearrangeTiles(tiles:tile[] , window:number):{set:tile[] , left:tile[]} {
+    let tempTiles: tile[] = tiles
     let readableTiles: tile[] = []
     let counter = 0;
     let numElement = this.tileService.state().countColumn * this.tileService.state().countRow;
@@ -123,11 +149,13 @@ export class ArrangementService {
       while(counter < tempTiles.length && !canPlace) {
         let element = tempTiles[counter]
         let occupancy = this.getTileOccupancy(element.type , this.get2DArray(i))
-        if (!this.isOccupied(occupancy) && !this.overFlows(element.type , i)){
+
+        if (!this.isOccupied(occupancy , window) && !this.overFlows(element.type , i)){
+
           element.position = this.get2DArray(i)
           element.index = occupancy
           readableTiles.push(element);
-          this.pushToOccupied(occupancy)
+          this.pushToOccupied(occupancy , window);
           tempTiles = tempTiles.filter(item => item !== element)
           canPlace = true;
           break;
@@ -141,12 +169,16 @@ export class ArrangementService {
 
     this.tiles.set(readableTiles);
 
+    return {
+      set : readableTiles,
+      left : tempTiles,
+    }
 
   }
 
-  pushToOccupied(pos:number[]){
+  pushToOccupied(pos:number[] , window:number){
     pos.forEach(item => {
-      this.occupiedSpace.push(item)
+      this.occupiedSpace[window].push(item)
     })
   }
 
@@ -205,8 +237,8 @@ export class ArrangementService {
     }
   }
 
-  changeZIndex(idx:number , layer:number){
-    let tempTiles = this.tiles()
+  changeZIndex(window:number , idx:number , layer:number){
+    let tempTiles = this.displayTiles()[window]
     tempTiles[idx].zIndex = layer
     this.tiles.set(tempTiles)
   }
