@@ -7,7 +7,12 @@
         @for(item of window_ ; track  $index) {
           <div cdkDrag cdkDragBoundary = ".boundary"  [cdkDragStartDelay]="600" [cdkDragFreeDragPosition]="item.position" (cdkDragStarted)="onDragStart(item.index , outerIndex)"  (cdkDragReleased)="onRelease($event , $index, item.index , item.type , outerIndex)" [style.z-index]="item.zIndex" [style.width.px]="getTileSize(item.type).width" [style.height.px]="getTileSize(item.type).height" class="absolute rounded-2xl  p-1 z-0 " >
             <!--            directive will be here  -->
-            <div (touchstart)="onMouseDown($event , outerIndex , $index)" (touchend)="onMouseUp($event , outerIndex , $index)"  (mousedown)="onMouseDown($event , outerIndex , $index)" (mouseup)="onMouseUp($event , outerIndex , $index)" class="w-full h-full bg-emerald-300 rounded-2xl outline-1"></div>
+            <div [id]="getId($index)" (touchstart)="onMouseDown(getId($index), outerIndex , $index)" (touchend)="onMouseUp(getId($index) , outerIndex , $index)"  (mousedown)="onMouseDown(getId($index) , outerIndex , $index)" (mouseup)="onMouseUp(getId($index) , outerIndex , $index)" class="w-full h-full p-1 rounded-2xl ">
+
+              <div class="w-full h-full">
+                <ng-template appDynamicLoader [component]="item.component"></ng-template>
+              </div>
+            </div>
           </div>
         }
       </div>

@@ -1,7 +1,11 @@
-import {inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {inject, Injectable, signal, Type, WritableSignal} from '@angular/core';
 import {TileServiceService} from './tile-service.service';
 import {single} from 'rxjs';
 import {DataService} from './data.service';
+import {Dynamic} from '../models/dynamic';
+import {CalenderComponent} from '../tiles/calender/calender.component';
+import {ClockComponent} from '../tiles/clock/clock.component';
+import {ProfileTileComponent} from '../tiles/profile-tile/profile-tile.component';
 
 
 // types and field
@@ -18,6 +22,7 @@ export enum tileType {
   xl,
 }
 type tile = {
+  component:Type<any>
   position: position,
   index : number[],
   type : tileType,
@@ -40,17 +45,19 @@ export class ArrangementService {
 
 
   constructor() {
-    let tileTypeArray:tileType[] = [tileType.small , tileType.small , tileType.small , tileType.horizontal , tileType.vertical , tileType.big , tileType.xl]
-    for (let i = 0; i < 10; i++) {
+    let tileTypeArray:tileType[] = [tileType.small , tileType.small]
+    for (let i = 0; i < 5; i++) {
       let randomTileType = tileTypeArray[Math.floor(Math.random()*tileTypeArray.length)];
       let newTile = {
         position: {
           x: 0,
           y: 0,
         },
+        component : ProfileTileComponent,
         index: [i],
         type: randomTileType,
         zIndex: 0,
+
 
       }
       this.allTile.push(newTile);
@@ -81,8 +88,10 @@ export class ArrangementService {
       newTiles[idList].position = newPos;
       newTiles[idList].index = item_positions;
       this.updatePosition(pos ,item_positions , window )
-      this.dataService.saveData<tile[][]>(dimension, this.displayTiles())
-      this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
+
+      // need to turn this on later
+      //this.dataService.saveData<tile[][]>(dimension, this.displayTiles())
+      //this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
     }
     this.tiles.set(newTiles);
   }
@@ -124,10 +133,10 @@ export class ArrangementService {
 
   setTileInWindow(){
     let dimension = this.getDimension()
-    if(this.dataService.getData<tile[][]>(dimension) != null){
-      this.displayTiles.set(this.dataService.getData<tile[][]>(dimension)!)
-      this.occupiedSpace = this.dataService.getData<number[][]>(dimension+"_o")!
-    } else {
+    // if(this.dataService.getData<tile[][]>(dimension) != null){
+    //   this.displayTiles.set(this.dataService.getData<tile[][]>(dimension)!)
+    //   this.occupiedSpace = this.dataService.getData<number[][]>(dimension+"_o")!
+    // } else {
       let temp_tiles = this.allTile;
       let count = 0
       this.displayTiles.set([])
@@ -139,13 +148,13 @@ export class ArrangementService {
         temp_tiles = result.left
 
         count++
-      }
+      //}
 
       let new_windows_tile = this.displayTiles()
       this.displayTiles.set(new_windows_tile)
 
-      this.dataService.saveData<tile[][]>(dimension, new_windows_tile)
-      this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
+      //this.dataService.saveData<tile[][]>(dimension, new_windows_tile)
+      //this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
     }
 
   }

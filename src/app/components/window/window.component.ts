@@ -2,6 +2,7 @@ import {AfterViewInit, Component, inject, OnChanges} from '@angular/core';
 import {TileServiceService} from '../../service/tile-service.service';
 import {CdkDrag, CdkDragDrop, CdkDragRelease} from '@angular/cdk/drag-drop';
 import {ArrangementService, tileType} from '../../service/arrangment.service';
+import {DynamicLoaderDirective} from '../../directives/dynamic-loader.directive';
 
 
 
@@ -18,7 +19,8 @@ enum mouseAction {
 @Component({
   selector: 'app-window',
   imports: [
-    CdkDrag
+    CdkDrag,
+    DynamicLoaderDirective
   ],
   templateUrl: './window.component.html',
   styleUrl: './window.component.css'
@@ -103,8 +105,9 @@ export class WindowComponent implements AfterViewInit {
 
   }
 
-  onMouseDown(event: MouseEvent|TouchEvent , window:number , idx:number ) {
-    let target = event.target as HTMLElement;
+  onMouseDown(childId:string , window:number , idx:number ) {
+
+    let target = document.getElementById(childId)!;
     clearTimeout(this.isAnimation);
     this.isAnimation = setTimeout(() => {
       target.classList.add('pop-animation');
@@ -119,8 +122,8 @@ export class WindowComponent implements AfterViewInit {
   }
 
 
-  onMouseUp(event: MouseEvent|TouchEvent , window:number , idx:number) {
-    let target = event.target as HTMLElement;
+  onMouseUp(childId:string , window:number , idx:number) {
+    let target = document.getElementById(childId)!;
     clearTimeout(this.isAnimation);
     target.classList.remove('pop-animation');
     this.arrangService.changeZIndex(window,idx, 0)
@@ -132,4 +135,8 @@ export class WindowComponent implements AfterViewInit {
 
   protected readonly Array = Array;
   protected readonly console = console;
+
+  getId(index: number) {
+    return "tile_" + index.toString();
+  }
 }

@@ -2,7 +2,7 @@ import {Injectable, WritableSignal, signal, computed} from '@angular/core';
 
 
 
-enum screenSize {
+export enum screenSize {
   desktopLarge = 1,
   tablet = 3,
   mobile = 4,
