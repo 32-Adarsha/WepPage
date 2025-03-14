@@ -1,1 +1,32 @@
-<p>profile works!</p>
+<div class="relative w-screen h-screen">
+
+  <div class="w-full h-full">
+    <canvas #rendererCanvas class="rendererCanvas"></canvas>
+  </div>
+
+  <div class="absolute w-full h-full bg-transparent top-0 left-0 p-5">
+    <div (click)="changeContent(myInfo['32'])" class="absolute top-[57%] left-[52%] w-[10px] h-[10px] bg-yellow-400 rounded-full div-attention">
+
+    </div>
+    <div (click)="changeContent(myInfo['nepal'])" class="absolute top-[24%] left-[50%] w-[10px] h-[10px] bg-yellow-400 rounded-full div-attention">
+
+    </div>
+
+    <div (click)="changeContent(myInfo['football'])" class="absolute top-[74%] left-[53%] w-[10px] h-[10px] bg-yellow-400 rounded-full div-attention">
+
+    </div>
+
+    <div (click)="changeContent(myInfo['info'])" class="absolute top-[45%] left-[50%] w-[10px] h-[10px] bg-yellow-400 rounded-full div-attention">
+
+    </div>
+
+    <div class="absolute max-w-[400px] text-white flex flex-row p-5 ml-5 mr-5">
+      <p class="absolute -left-5 top-0 passion-one-bold text-green-300 text-5xl">"</p>
+      <p class="playwrite sm:text-2xl" [style.font-size.px]="fontSize" >{{content}}</p>
+      <p class="absolute right-0 -bottom-5 passion-one-bold text-green-300 text-5xl">"</p>
+    </div>
+  </div>
+
+
+</div>
+

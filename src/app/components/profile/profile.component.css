@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&family=Playwrite+DE+Grund:wght@100..400&display=swap');
+@keyframes outlineEffect {
+  0% {
+    outline: 5px solid #ff6347; /* Red outline */
+    outline-offset: 0px;
+  }
+  50% {
+    outline-offset: 10px; /* Offset the outline outward */
+  }
+  100% {
+    outline-offset: 0px; /* Reset to original position */
+  }
+}
+
+/* Apply the animation to the div */
+.div-attention {
+  animation: outlineEffect 1s infinite; /* Animation runs on hover */
+}
+
+.passion-one-bold {
+  font-family: "Passion One", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.playwrite {
+  font-family: "Playwrite DE Grund", cursive;
+  font-optical-sizing: auto;
+
+  font-style: normal;
+}
+
