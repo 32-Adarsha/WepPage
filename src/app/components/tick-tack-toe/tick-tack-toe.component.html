@@ -1,0 +1,31 @@
+<div class="w-screen h-screen flex justify-center items-center">
+
+  <div class="relative md:w-[400px] md:h-[400px] w-[200px] h-[200px] bg-white grid grid-cols-3 grid-rows-3 gap-3">
+    <div class="absolute -top-10">{{this.getInfo(whoseTurn)}}</div>
+    @for(elem of tttgrid() ; track $index){
+      <div (click)="updateContent($index , this.playerTurn)" class="bg-gray-200 shadow-sm rounded-2xl flex justify-center items-center overflow-clip">
+        <div class="w-full h-full flex justify-center items-center ">
+          @if(elem == 'x'){
+            <p class="zhi-mang-xing-regular md:text-9xl  text-6xl text-red-400">x</p>
+          } @else if (elem == 'o' || elem == 'b'){
+            <p class="zhi-mang-xing-regular md:text-9xl text-6xl text-blue-400 text-center">o</p>
+          } @else {
+          }
+        </div>
+      </div>
+    }
+  </div>
+  @if(displayMenu()){
+    <div class="absolute w-full h-full flex justify-center items-center bg-gray-100 blur-lg p-10"></div>
+    <div class="absolute w-full h-full flex justify-center items-center">
+      <div class="w-full h-full md:w-[350px] md:h-[350px] rounded-2xl  opacity-95 flex flex-col justify-center items-center p-5 gap-2">
+        <p class="text-5xl font-serif font-bold">Tic Tac Toe</p>
+
+        <button (click)="onClickPlay(GameMode.single)" class="w-full bg-black text-white h-[50px] rounded-md font-bold text-3xl">Single</button>
+        <button (click)="onClickPlay(GameMode.multiple)" class="w-full bg-black text-white h-[50px] rounded-md font-bold text-3xl">MultiPlayer</button>
+        <button (click)="onExit()" class="w-full bg-black text-white h-[50px] rounded-md font-bold text-3xl">Exit</button>
+      </div>
+    </div>
+  }
+
+</div>

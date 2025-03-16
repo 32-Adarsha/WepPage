@@ -14,10 +14,10 @@ import {screenSize, TileServiceService} from "../../service/tile-service.service
 export class ProfileComponent implements AfterViewInit , OnDestroy {
 
   myInfo = {
-    "32" : "32 is more than just a number to me; it’s a symbol of my journey. It was the identity given to me when I first walked through the doors of my school, a new chapter in my life. This number carries the essence of who I am, a direct reflection of my original identity, 9032 D. It’s a reminder of where I’ve been and how far I’ve come, holding memories and emotions that are deeply intertwined with my personal story.",
-    "info": "Hi, I’m Adarsha Kiran Khadka. I grew up beneath the towering mountains, where the natural world shaped my love for hiking and trekking. These outdoor adventures fuel my spirit and drive my passion for exploration. I also have a deep love for sports, always seeking new challenges and ways to stay active.",
-    "nepal":"I come from Nepal, a land where the majestic Himalayas stand tall, guarding the heart of a proud and timeless culture. Born in its embrace, I carry its spirit with me, now and always. Nepal’s rich food culture, its warmth, and its traditions are woven into the fabric of who I am. They will remain a part of me, guiding and inspiring me throughout my life.",
-    "football":"Football is more than just a game to me—it’s a passion that has shaped who I am. Through every match, I’ve learned the power of teamwork, discipline, and resilience. The sport has taught me to push my limits and never give up, while giving me a sense of purpose and belonging. "
+    "32" : "32 is more than just a number; it symbolizes my journey. It was the identity I received when I first entered school, marking a new chapter in my life. It reflects who I am, rooted in my original identity, 9032 D, and serves as a reminder of my past and the distance I've traveled.",
+    "info": "👋 Hi , I’m Adarsha. I recently graduated from Missouri State University, and I am actively seeking a software engineering role. I have a strong passion for problem-solving and enjoy tackling complex challenges with innovative solutions.",
+    "nepal":"The flag of Nepal on top of my cap is my identity.It's who I am and where I come from. I carry immense pride for my country. The cap, adorned with the logo of the Nepalese flag, symbolizes my deep connection to my roots, my unwavering loyalty to my heritage, and the strength that comes from my people.",
+    "football":"That shoe is no mere shoe. It is the embodiment of my unshakable passion for football. It has been an inseparable part of me since childhood, molding me into the person I am today. My devotion to the sport is profound, and over the years, I’ve gathered a collection of memories—each one a cherished reflection of the bond I’ve forged with the game. "
   }
   content = this.myInfo['info']
   fontSize:number = 30
@@ -29,7 +29,8 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
   private originalRotationX = 0;
   private originalRotationY = 0;
   private originalRotationZ = 0;
-
+  touchStartX = 0
+  touchMoveX = 0
 
   @ViewChild('rendererCanvas') canvasRef!: ElementRef;
   private scene = new THREE.Scene();
@@ -40,7 +41,28 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
   tileService = inject(TileServiceService);
   constructor(private gltfLoader: GtlfloaderService) {
     window.addEventListener('resize', () => {this.onWindowResize()})
+    window.addEventListener('touchstart', (event) => {
+      this.touchStartX = event.changedTouches[0].screenX;
+    })
+    window.addEventListener('touchmove', (event) => {
+      this.touchMoveX = event.changedTouches[0].screenX;
+      this.handleSwipe()
+    })
+
+
     this.getFontSize()
+  }
+
+  handleSwipe() {
+    let rotate = -10
+    if (this.touchMoveX - this.touchStartX < 0){
+      rotate = 10
+    }
+
+    if (Math.abs(this.touchMoveX - this.touchStartX) > 5) {
+      this.model.rotation.y += rotate * 0.6;
+      this.touchStartX = this.touchMoveX
+    }
   }
 
   async ngAfterViewInit() {

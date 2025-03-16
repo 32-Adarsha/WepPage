@@ -1,0 +1,17 @@
+<div class="w-full h-full rounded-2xl bg-white p-2">
+  <div class="relative w-full h-full rounded-2xl">
+    <img class="w-full h-full object-cover rounded-2xl blur-[0.9px] grayscale-25 " src='./images/springfield.png' />
+    <img class="absolute top-0 left-1 lg:w-[80px] lg:h-[80px] w-[50px] h-[50px]" [src]="icon()" />
+    <div class="absolute w-full h-full flex flex-col justify-center items-center top-0 left-0">
+
+      <p class="text-amber-50 lg:text-6xl text-3xl font-extrabold shadow-text">{{temp}}&deg;</p>
+
+    </div>
+    <div class="absolute w-full bottom-2 text-center shadow-content text-white md:text-[20px] text-[13px] rounded  font-extrabold">
+      Springfield, Missouri
+    </div>
+
+
+  </div>
+
+</div>

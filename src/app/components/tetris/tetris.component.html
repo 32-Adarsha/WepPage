@@ -1,0 +1,91 @@
+<div class="relative w-screen h-screen flex flex-row justify-center items-center">
+  @if(tService.status() == GameStatus.Home ){
+    <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white">
+      <div class=" max-w-[400px]  max-h-[450px]  bg-gray-100  rounded flex flex-col justify-end p-5 gap-3">
+        <div class="orbitron w-full p-3 text-7xl font-extrabold flex justify-center items-center text-red-400"><span class="text-pink-500">T</span><span class="text-purple-500">E</span>T<span class="text-gray-700">R</span><span class="text-teal-500">I</span>S</div>
+        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">A</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Left Move</p></div>
+        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">D</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Right Move</p></div>
+        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">R</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Rotate</p></div>
+        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold px-1">Space</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Speed Up</p></div>
+        <button (click)="tService.start()" class="bg-red-400 h-[50px] rounded text-3xl font-extrabold text-white hover:scale-105 duration-100"> PLAY </button>
+
+      </div>
+    </div>
+  } @else {
+
+    <div [style.width]="gameWidthSize"  class="relative rounded flex flex-col gap-2">
+      <div class="lg:absolute lg:right-[-200px] flex sm:flex-row lg:flex-col justify-between items-center gap-1">
+
+      <div [style.width.px]="getSideWindowSize()" [style.height.px] = "getSideWindowSize()" class="top-0 outline rounded p-2 ">
+        @if(tService.NextWindow().length == 16){
+          <div class="lg:rounded-sm w-full h-full flex flex-row flex-wrap">
+            @for(item of tService.NextWindow();track $index){
+              <div class="w-1/4 h-1/4 lg:p-[1px] sm:p-[1px]">
+                @if(item != TetrisType.invis){
+                  <div class=" w-full h-full {{item}}"></div>
+                } @else {
+                  <div class=" w-full h-full"></div>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="w-full h-full flex flex-row flex-wrap">
+            @for(item of tService.NextWindow();track $index){
+              <div class="w-1/3 h-1/3 p-[1px] ">
+                @if(item != TetrisType.invis){
+                  <div class="lg:rounded-sm w-full h-full {{item}}"></div>
+                } @else {
+                  <div class=" w-full h-full"></div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+
+      </div>
+        <div class="lg:text-5xl sm:text-4xl  orbitron font-extrabold"> {{tService.score()}}</div>
+        </div>
+      <div [style.width.px]="gameWidthSize" class="relative">
+      <div [style.width.px]="gameWidthSize" class="flex flex-row flex-wrap justify-center items-center outline  rounded outline-offset-2" #gameGrid>
+        @for(item of tService.blocks() ; track $index){
+          <div [style.width.px]="getwidth(gameGrid)" [style.height.px]="getwidth(gameGrid)" class="flex justify-center items-center p-[1px]">
+            @if (item == TetrisType.invis){
+              <div class="w-full h-full rounded bg-gray-200"  ></div>
+            }@else {
+              <div class="w-full h-full rounded {{item}}"> </div>
+            }
+          </div>
+        }
+      </div>
+      <div [style.width.px]="gameWidthSize" class="absolute top-0 left-0 flex flex-row flex-wrap justify-center items-center z-10 ">
+        @for(item of tService.TempBlocks() ; track $index){
+          <div [style.width.px]="getwidth(gameGrid)" [style.height.px]="getwidth(gameGrid)" class="flex justify-center items-center p-[1px]">
+            @if (item == TetrisType.n){
+              <div  class="w-full h-full rounded bg-transparent"></div>
+            } @else {
+              <div  class="w-full h-full rounded {{item}} shadow"></div>
+            }
+          </div>
+        }
+      </div>
+      </div>
+      <div class="lg:hidden w-full flex justify-center">
+      <div class="relative w-[50%] text-center">
+        <div class="relative w-full h-full">
+          <div class="w-full flex flex-row justify-center">
+            <div (click)="showClickEffect($event , 'R')" (touchend)="showClickEffect($event, 'R')" class="p-2 but-shadow w-[40px] h-[40px] rounded-full bg-green-600 text-white font-bold cursor-pointer">R</div>
+          </div>
+          <div class="w-full flex flex-row justify-between">
+            <div (click)="showClickEffect($event, 'A')" (touchstart)="showClickEffect($event, 'A')" class="p-2 but-shadow  w-[40px] h-[40px] rounded-full bg-red-500 text-white font-bold cursor-pointer">A</div>
+            <div (click)="showClickEffect($event, 'D')" (touchstart)="showClickEffect($event, 'D')"  class="p-2 but-shadow w-[40px] h-[40px] rounded-full bg-yellow-500 text-white font-bold cursor-pointer">D</div>
+          </div>
+          <div class="w-full p-1"><p (mouseup)="touchLeave()"  (mousedown)="showClickEffect($event, ' ')" (touchstart)="showClickEffect($event, ' '); touchStart()" (touchend)="touchLeave()" class="bg-red-500 but-shadow cursor-pointer rounded  text-white font-bold">Space</p></div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+  }
+</div>
