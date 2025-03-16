@@ -30,7 +30,7 @@ export class WindowComponent implements AfterViewInit {
   isResizeS:any;
   isAnimation:any;
   totalElement : number = 0;
-
+  rerender:number = 0
   tileService:TileServiceService = inject(TileServiceService);
   arrangService:ArrangementService = inject(ArrangementService);
 
@@ -51,6 +51,8 @@ export class WindowComponent implements AfterViewInit {
       this.isResizeS = setTimeout(() => {
         this.tileService.resetSize()
         // this.arrangService.reorderTiles()
+        this.rerender = this.rerender + 1
+        console.log(this.rerender)
         this.arrangService.setTileInWindow()
       } , 100)
     })

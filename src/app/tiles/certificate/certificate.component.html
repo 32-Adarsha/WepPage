@@ -1,3 +1,4 @@
 <div class="w-full h-full rounded-2xl outline-1 outline-offset-2 p-1">
-  <img class="object-contain w-full h-full rounded-2xl" [src]="Data">
+  <img (dblclick)="clickAction()"  class="object-contain w-full h-full rounded-2xl" [src]="Data">
+  <img width="30" height="30"  class="absolute bottom-3 right-4 hover:scale-110 duration-100" (click)="clickAction()" src="https://img.icons8.com/carbon-copy/100/resize-diagonal.png" alt="resize-diagonal"/>
 </div>

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, inject} from '@angular/core';
+import {PreferenceService} from '../../service/preference.service';
+import VanillaTilt from 'vanilla-tilt';
+
 
 @Component({
   selector: 'app-big-certificate',
@@ -6,6 +9,13 @@ import { Component } from '@angular/core';
   templateUrl: './big-certificate.component.html',
   styleUrl: './big-certificate.component.css'
 })
-export class BigCertificateComponent {
+export class BigCertificateComponent implements AfterViewInit {
+    preferService = inject(PreferenceService)
 
+  ngAfterViewInit(): void {
+    VanillaTilt.init(document.getElementById("certificate")!, {
+      max: 10,
+      speed: 200
+    });
+  }
 }

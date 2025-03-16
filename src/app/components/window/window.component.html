@@ -2,7 +2,9 @@
   <div class="absolute w-screen h-screen top-0 left-0">
     <img class="w-full h-full object-cover" src="./images/plant.webp"/>
   </div>
+
 <div class="relative w-screen h-screen  overflow-x-auto snap-x snap-mandatory scroll-smooth scrollwidth" id="xWindow" >
+  @if(rerender >=0){
   @for(window_ of arrangService.displayTiles() ; let  outerIndex = $index ; track outerIndex){
     <div class=" absolute w-screen h-screen  snap-start" [style.padding]="tileService.state().paddingVertical + 'px ' + tileService.state().paddingHorizontal + 'px'" [style.left.%]="getLeftPosition(outerIndex)">
 
@@ -23,6 +25,8 @@
       </div>
     </div>
   }
+  }
+
 
 
 

@@ -27,6 +27,7 @@
     "three": "^0.174.0",
     "three-stdlib": "^2.35.14",
     "tslib": "^2.3.0",
+    "vanilla-tilt": "^1.8.1",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
