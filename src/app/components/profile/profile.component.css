@@ -1,11 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&family=Playwrite+DE+Grund:wght@100..400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Barriecito&family=Boldonse&family=Rowdies:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
 @keyframes outlineEffect {
   0% {
     outline: 5px solid #ff6347; /* Red outline */
     outline-offset: 0px;
   }
   50% {
-    outline-offset: 10px; /* Offset the outline outward */
+    outline-offset: 20px; /* Offset the outline outward */
   }
   100% {
     outline-offset: 0px; /* Reset to original position */
@@ -30,3 +33,156 @@
   font-style: normal;
 }
 
+.sue-ellen-francisco-regular {
+  font-family: "Sue Ellen Francisco", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.boldonse-regular {
+  font-family: "Boldonse", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.silkscreen-regular {
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.silkscreen-bold {
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+@keyframes drawEffect {
+  0% {
+    transform: translateX(-0%);
+  }
+  20%{
+    transform: translateX(-20%);
+  }
+  40%{
+    transform: translateX(-40%);
+  }
+  50% {
+    transform: translateX(-50%);
+  }
+  60%{
+    transform: translateX(-60%);
+  }
+  80%{
+    transform: translateX(-80%);
+  }
+  100% {
+    transform: translateX(-102%);
+
+  }
+}
+.barriecito-regular {
+  font-family: "Barriecito", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.rowdies-light {
+  font-family: "Rowdies", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.rowdies-regular {
+  font-family: "Rowdies", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rowdies-bold {
+  font-family: "Rowdies", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.drawAnimation {
+  animation: drawEffect 0.5s linear forwards;
+}
+
+.drop-custom-shadow {
+  filter: drop-shadow(0 -4mm 4mm rgb(214, 185, 227));
+}
+
+.parisienne-regular {
+  font-family: "Parisienne", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.dancing-script{
+                   font-family: "Dancing Script", cursive;
+                   font-optical-sizing: auto;
+
+                   font-style: normal;
+                 }
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+  40% {
+    transform: translateY(12px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+  80% {
+    transform: translateY(1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.element {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.element2 {
+  animation: bounce 2s ease-in-out 200ms infinite;
+}
+.element4 {
+  animation: bounce 2s ease-in-out 400ms infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+.carattere-regular {
+  font-family: "Carattere", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.shadow-text {
+  text-shadow:  rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+
+.shadow-text-sm {
+  text-shadow:  rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 10px;
+}

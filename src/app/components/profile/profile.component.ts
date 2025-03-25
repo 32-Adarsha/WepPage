@@ -2,17 +2,34 @@ import {AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild} from
 import * as THREE from 'three';
 import {GtlfloaderService} from "../../service/gtlfloader.service";
 import {OrbitControls} from "three-stdlib";
-import {screenSize, TileServiceService} from "../../service/tile-service.service";
+import {TileServiceService} from "../../service/tile-service.service";
+import {StatComponent} from '../../rComponent/stat/stat.component';
+
+
+enum sOption {
+  Profile,
+  Contact,
+  Experience,
+  Other,
+}
 
 
 @Component({
   selector: 'app-profile',
-  imports: [],
+  imports: [
+    StatComponent
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements AfterViewInit , OnDestroy {
-
+  models = ['./model/gTest.glb' , './model/pModel.glb' , './model/profile_d.glb' ]
+  scrolledDown = 0
+  mdlIdx = 0
+  newPaper: any;
+  loaded = false
+  newLoaded = true
+  selected :sOption = sOption.Profile
   myInfo = {
     "32" : "32 is more than just a number; it symbolizes my journey. It was the identity I received when I first entered school, marking a new chapter in my life. It reflects who I am, rooted in my original identity, 9032 D, and serves as a reminder of my past and the distance I've traveled.",
     "info": "👋 Hi , I’m Adarsha. I recently graduated from Missouri State University, and I am actively seeking a software engineering role. I have a strong passion for problem-solving and enjoy tackling complex challenges with innovative solutions.",
@@ -21,11 +38,9 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
   }
   content = this.myInfo['info']
   fontSize:number = 30
+  scrollCount = 0
 
-  changeContent(newContent:string) {
-    this.content = newContent
-    this.resetRotation()
-  }
+
   private originalRotationX = 0;
   private originalRotationY = 0;
   private originalRotationZ = 0;
@@ -53,6 +68,21 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
     this.getFontSize()
   }
 
+  getCanvasWidth():number{
+    if(window.innerWidth < 641){
+
+      return window.innerWidth;
+    }
+    else if(window.innerWidth < 1025){
+
+      return 0.4 * window.innerWidth;
+    }
+    else{
+      return 0.4 * window.innerWidth;
+    }
+  }
+
+
   handleSwipe() {
     let rotate = -10
     if (this.touchMoveX - this.touchStartX < 0){
@@ -69,10 +99,37 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
     this.setupRenderer();
     this.setupCamera();
     this.setupLights();
-    await this.loadModel();
+
+    this.loadModel('./model/gTest.glb')
+      .then(() => {
+        this.loaded = true;
+      })
+      .catch((error) => {
+        console.error("Error loading model:", error);
+      })
+      .finally(() => {
+
+      });
     this.setupControls();
     this.animate();
-  }
+ }
+
+
+ protected async newModelLoaded(path:string , idx:number) {
+    this.newLoaded = false
+   this.mdlIdx = idx;
+    this.loadModel(path).then(
+      () => {
+        this.newLoaded = true
+      }
+    );
+ }
+
+
+
+
+
+
 
   private setupRenderer() {
     this.renderer = new THREE.WebGLRenderer({
@@ -80,17 +137,19 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
       antialias: true
     });
 
-    this.renderer.setSize(this.tileService.state().widthScreen, this.tileService.state().heightScreen);
+    this.renderer.setSize(this.getCanvasWidth(), this.tileService.state().heightScreen);
   }
 
   private setupCamera() {
     this.camera = new THREE.PerspectiveCamera(
         75,
-        this.tileService.state().widthScreen / this.tileService.state().heightScreen,
+        this.getCanvasWidth()/ this.tileService.state().heightScreen,
         0.1,
         1000
     );
-    this.camera.position.z = 10;
+    this.camera.position.z = -10;
+    this.camera.position.y = 2;
+
 
   }
 
@@ -102,21 +161,30 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
     directionalLight.position.set(1, 1, 1);
     this.scene.add(directionalLight);
     this.scene.add(new THREE.AmbientLight(0x404040)); // Base light
-    this.scene.add(new THREE.DirectionalLight(0xffffff, 0.5)); // Main light
-    this.scene.add(new THREE.HemisphereLight(0xffffbb, 0x080820, 0.2));
+    this.scene.add(new THREE.DirectionalLight(0xffffff, 29)); // Main light
+    this.scene.add(new THREE.HemisphereLight(0xffffbb, 0x080820, 1));
   }
 
-  private async loadModel() {
-    const gltf = await this.gltfLoader.loadModel('./model/profile_d.glb');
-    this.model = gltf.scene;
-    this.model.position.z = 7.5;
-    this.model.position.y = -1;
-    this.model.position.x = 0;
-    this.originalRotationX = this.model.rotation.x;
-    this.originalRotationY = this.model.rotation.y;
-    this.originalRotationZ = this.model.rotation.z;
-    this.scene.add(this.model);
+  protected async loadModel(path: string) {
+
+    const gltf = await this.gltfLoader.loadModel(path);
+    let newModel = gltf.scene;
+    newModel.position.y =0.6;
+    newModel.position.z = -8.3;
+    newModel.position.x = 0;
+    this.originalRotationX = newModel.rotation.x;
+    this.originalRotationY = newModel.rotation.y;
+    this.originalRotationZ = newModel.rotation.z;
+    newModel.rotation.y = 10;
+    this.scene.add(newModel);
+    if(this.loaded){
+      this.scene.remove(this.model)
+    }
+    this.model = newModel;
+
   }
+
+
 
   private setupControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -148,9 +216,12 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
   public handleWheel(event: WheelEvent) {
     event.preventDefault();
     const delta = Math.sign(event.deltaY);
+    this.scrollCount += delta*10
+    if (this.scrollCount < 0){
+      this.scrollCount = 0
+    }
 
-
-    this.model.rotation.y += delta * 0.6;
+    this.model.rotation.y += delta * 0.3;
 
   }
 
@@ -161,9 +232,9 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
 
 
   onWindowResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.aspect = this.getCanvasWidth()/ window.innerHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(this.getCanvasWidth(), window.innerHeight);
     this.getFontSize()
   }
 
@@ -181,5 +252,48 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
     } else {
       this.fontSize =  20;
     }
+  }
+
+  addDrawAnimation(elem: HTMLElement) {
+    elem.classList.add('drawAnimation');
+  }
+
+  protected readonly sOption = sOption;
+
+  isSelected(opt: sOption , color:string) {
+    return this.selected == opt ? this.getBgColor(opt) : 'bg-transparent';
+  }
+
+  changeScreenOption(opt:sOption , down:number , elm:HTMLElement ) {
+    this.selected = opt
+    elm.scrollBy(0 , (down - this.scrolledDown)*window.innerHeight)
+
+    this.scrolledDown = down;
+
+  }
+
+  getBgColor(opt:sOption) {
+    switch (opt){
+      case sOption.Experience:
+        return 'bg-amber-400';
+      case sOption.Profile:
+        return 'bg-purple-400';
+      case sOption.Contact:
+        return 'bg-orange-400';
+      case sOption.Other:
+        return 'bg-emerald-400';
+      default:
+        return 'bg-transparent';
+    }
+  }
+
+
+  protected readonly console = console;
+  protected readonly window = window;
+  protected readonly Math = Math;
+
+
+  setScrollDown(elm: HTMLDivElement) {
+    this.scrolledDown = Math.round(elm.scrollTop / elm.clientHeight)
   }
 }

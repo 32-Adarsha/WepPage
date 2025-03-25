@@ -1,6 +1,6 @@
 <div class="w-screen h-screen">
   <div class="absolute w-screen h-screen top-0 left-0">
-    <img class="w-full h-full object-cover" src="./images/plant.webp"/>
+    <img class="w-full h-full object-cover" src="./images/god.png"/>
   </div>
 
 <div class="relative w-screen h-screen  overflow-x-auto snap-x snap-mandatory scroll-smooth scrollwidth" id="xWindow" >
@@ -15,9 +15,12 @@
             <!--            directive will be here  -->
             <div [id]="getId($index)" (touchstart)="onMouseDown(getId($index), outerIndex , $index)" (touchend)="onMouseUp(getId($index) , outerIndex , $index)"  (mousedown)="onMouseDown(getId($index) , outerIndex , $index)" (mouseup)="onMouseUp(getId($index) , outerIndex , $index)" class="w-full h-full p-1 rounded-2xl ">
 
-              <div class="w-full h-full shadow-custom rounded-2xl">
+              <div class="relative w-full h-full  rounded-2xl p-1">
+                <div class="cus-shadow w-full h-full rounded-2xl">
+                  <ng-template appDynamicLoader [component]="item.component" [Data]="item.data" ></ng-template>
+                </div>
 
-                <ng-template appDynamicLoader [component]="item.component" [Data]="item.data" ></ng-template>
+                <div class="absolute -bottom-5 w-full text-center font-bold capitalize text-amber-300 shadow-text rounded">Quote</div>
               </div>
             </div>
           </div>

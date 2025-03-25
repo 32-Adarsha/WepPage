@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
+
 
 @Component({
   selector: 'app-big-info',
@@ -8,4 +9,11 @@ import {Component, Input} from '@angular/core';
 })
 export class BigInfoComponent {
     @Input() Data: any;
+
+
+
+
+
+
+
 }

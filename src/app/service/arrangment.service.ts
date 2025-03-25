@@ -56,9 +56,9 @@ export class ArrangementService {
 
   constructor() {
 
-    let components = [BigInfoComponent,InfoComponent,InfoComponent,QuoteComponent,ClockComponent,WeatherComponent,SocialmediaComponent ,SocialmediaComponent, SocialmediaComponent,CalenderComponent , TicTacToeComponent , ProfileTileComponent , TetrisComponent , CertificateComponent ,CertificateComponent ];
-    let type_array = [tileType.big,tileType.horizontal,tileType.horizontal , tileType.horizontal , tileType.small , tileType.big, tileType.small , tileType.small,tileType.small , tileType.small ,tileType.small, tileType.vertical , tileType.small , tileType.xl ,  tileType.xl ];
-    let component_data = ["test" ,{"msg":'Some Tiles Can Open New Page Like Game and Profile' , 'color':"bg-red-300"},{'msg':'Hi, Check out my Site you can drag and Drop' , 'color':"bg-blue-300"},undefined,undefined  ,undefined,{media:"resume"},{media:"linkedin"},{media:"github"}, undefined , undefined , undefined , undefined ,  './images/coursera.png' , './images/microsoft.png'];
+    let components = [BigInfoComponent,InfoComponent,QuoteComponent,ClockComponent,WeatherComponent,SocialmediaComponent ,SocialmediaComponent, SocialmediaComponent,CalenderComponent , TicTacToeComponent , ProfileTileComponent , TetrisComponent , CertificateComponent ,CertificateComponent ];
+    let type_array = [tileType.big,tileType.horizontal , tileType.horizontal , tileType.small , tileType.big, tileType.small , tileType.small,tileType.small , tileType.small ,tileType.small, tileType.vertical , tileType.small , tileType.xl ,  tileType.xl ];
+    let component_data = ["test" ,{'msg':'Hi, Check out my Site you can drag and Drop' , 'color':"bg-blue-300"},undefined,undefined  ,undefined,{media:"resume"},{media:"linkedin"},{media:"github"}, undefined , undefined , undefined , undefined ,  './images/coursera.png' , './images/microsoft.png'];
     for (let i = 0; i < components.length; i++) {
 
       let newTile = {
