@@ -1,0 +1,138 @@
+<div class="relative w-full h-full ">
+
+  <div class="w-full h-full flex flex-col-reverse md:flex-row lg:flex-row">
+    <div class="w-full md:w-[40%] lg: h-1/12  md:h-full lg:h-full bg-gray-950 flex flex-row md:flex-col py-2 px-4 items-center gap-2 silkscreen-bold shadow-text">
+          <div (click)="changeSelection(sWindow.Wallpaper)" class="w-full h-[40px] sm:h-[50px] text-xs sm:text-lg rounded  flex justify-center items-center hover:scale-105 duration-75 cursor-pointer {{selection == sWindow.Wallpaper ? 'bg-amber-400':'bg-white'}}">
+            Wallpaper
+          </div>
+      <div (click)="changeSelection(sWindow.Preferences)" class="w-full h-[40px] sm:h-[50px] text-xs sm:text-lg rounded  outline-2 flex justify-center items-center hover:scale-105 duration-75 cursor-pointer {{selection == sWindow.Preferences ? 'bg-amber-400':'bg-white'}} ">
+        Preference
+      </div>
+      <div (click)="changeSelection(sWindow.ComponentAdd)" class="w-full h-[40px] sm:h-[50px] text-xs sm:text-lg rounded  flex justify-center items-center hover:scale-105 duration-75 cursor-pointer {{selection == sWindow.ComponentAdd ? 'bg-amber-400':'bg-white'}}">
+        Add Tile
+      </div>
+    </div>
+    <div class="w-full h-full bg-white  ">
+      @switch (selection) {
+        @case (sWindow.Preferences) {
+          <div class="w-full h-full silkscreen-bold shadow-text text-lg flex flex-col text-black  uppercase p-2 "#preferWindow>
+            <p class="text-4xl w-full text-blue-400 ">System Apps</p>
+            <p class="text-lg w-full text-right text-blue-400 pb-3">Visible</p>
+            <div [style.height.px]="getPreferHeight(preferWindow)" class="w-full outline rounded-2xl outline-offset-2   overflow-scroll scrollwidth gap-2 p-2" >
+              @for (item of this.arrService.tiles_component(); track $index) {
+                @if(item.id != "setting" ){
+                  <div class=" w-full min-h-[50px] rounded">
+                    <div class=" w-full h-full flex flex-row justify-between items-center px-4 py-1 " >
+                      <p class="w-[50%] text-xs lg:text-xl">{{item.id}}</p>
+                      <div class="h-full w-full  flex flex-row justify-end items-center ">
+                        @if(!item.builtIn){
+                          <div (click)="deleteItem($index)" class="p-1 flex justify-center items-center hover:scale-125 duration-75">
+                            <img class="w-[20px] h-[20px]" src="https://img.icons8.com/material-rounded/96/trash.png" alt="trash"/>
+                          </div>
+
+
+                        }
+                        <label  class="switch">
+                          <input [checked]="item.display" (change)="tiggerChange($index, item.display)" type="checkbox">
+                          <span class="slider"></span>
+                        </label>
+
+
+
+                      </div>
+
+
+                    </div>
+                  </div>
+                }
+              }
+
+
+
+            </div>
+          </div>
+        }
+        @case (sWindow.ComponentAdd) {
+          <div class="w-full h-full p-3 flex flex-col gap-3" #slectH>
+            <select class="w-full bg-amber-200 outline rounded silkscreen-bold shadow-text p-2 text-2xl" name="option" id="tOption" #selectType>
+              <option value="Text">Text</option>
+              <option value="Image">Image</option>
+            </select>
+          <div [style.height.px]="getPreferHeight(slectH)" class="w-full overflow-scroll px-1">
+
+
+            @if(selectType.value == 'Text'){
+              <div class="">
+                  <p class="silkscreen-bold shadow-text text-red-400">Text Content</p>
+                  <input class="w-full h-[50px] outline rounded  shadow-text pl-2" placeholder="Content" type="text" #textContent>
+                <p class="silkscreen-bold shadow-text text-red-400">Color</p>
+                  <input value="text-amber-500" type="text" class="hidden" #colorpicker>
+                <div id="color-selection" class="flex flex-row gap-2 flex-wrap">
+                  <div (click)="colorpicker.value = 'text-amber-500'" class="w-[50px] h-[50px] rounded bg-amber-500 cursor-pointer {{colorpicker.value == 'text-amber-500'?'outline outline-offset-2':''}} "></div>
+                  <div (click)="colorpicker.value = 'text-black'" class="w-[50px] h-[50px] rounded bg-black cursor-pointer {{colorpicker.value == 'text-black'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="colorpicker.value = 'text-green-400'" class="w-[50px] h-[50px] rounded bg-green-400 cursor-pointer {{colorpicker.value == 'text-green-400'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="colorpicker.value = 'text-emerald-500'" class="w-[50px] h-[50px] rounded bg-emerald-500 cursor-pointer {{colorpicker.value == 'text-emerald-500'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="colorpicker.value = 'text-red-500'" class="w-[50px] h-[50px] rounded bg-red-500 cursor-pointer {{colorpicker.value == 'text-red-500'?'outline outline-offset-2':''}} "></div>
+                  <div (click)="colorpicker.value = 'text-orange-500'" class="w-[50px] h-[50px] rounded bg-orange-500 cursor-pointer {{colorpicker.value == 'text-orange-500'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="colorpicker.value = 'text-purple-500'" class="w-[50px] h-[50px] rounded bg-purple-500 cursor-pointer {{colorpicker.value == 'text-purple-500'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="colorpicker.value = 'text-pink-400'" class="w-[50px] h-[50px] rounded bg-pink-400 cursor-pointer {{colorpicker.value == 'text-pink-400'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="colorpicker.value = 'text-blue-500'" class="w-[50px] h-[50px] rounded bg-blue-500 cursor-pointer {{colorpicker.value == 'text-blue-500'?'outline outline-offset-2':''}} "></div>
+                  <div (click)="colorpicker.value = 'text-white'" class="w-[50px] h-[50px] rounded border bg-white cursor-pointer {{colorpicker.value == 'text-white'?'outline outline-offset-2':''}} "></div>
+
+                </div>
+
+                <p class="silkscreen-bold shadow-text text-red-400">Background Color</p>
+                <input value="text-amber-500" type="text" class="hidden" #bgpicker>
+                <div id="bg-selection" class="flex flex-row gap-2 flex-wrap">
+                  <div (click)="bgpicker.value = 'bg-amber-500'" class="w-[50px] h-[50px] rounded bg-amber-500 cursor-pointer {{bgpicker.value == 'bg-amber-500'?'outline outline-offset-2':''}} "></div>
+                  <div (click)="bgpicker.value = 'bg-black'" class="w-[50px] h-[50px] rounded bg-black cursor-pointer {{bgpicker.value == 'bg-black'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="bgpicker.value = 'bg-green-400'" class="w-[50px] h-[50px] rounded bg-green-400 cursor-pointer {{bgpicker.value == 'bg-green-400'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="bgpicker.value = 'bg-emerald-500'" class="w-[50px] h-[50px] rounded bg-emerald-500 cursor-pointer {{bgpicker.value == 'bg-emerald-500'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="bgpicker.value = 'bg-red-500'" class="w-[50px] h-[50px] rounded bg-red-500 cursor-pointer {{bgpicker.value == 'bg-red-500'?'outline outline-offset-2':''}} "></div>
+                  <div (click)="bgpicker.value = 'bg-orange-500'" class="w-[50px] h-[50px] rounded bg-orange-500 cursor-pointer {{bgpicker.value == 'bg-orange-500'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="bgpicker.value = 'bg-purple-500'" class="w-[50px] h-[50px] rounded bg-purple-500 cursor-pointer {{bgpicker.value == 'bg-purple-500'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="bgpicker.value = 'bg-pink-400'" class="w-[50px] h-[50px] rounded bg-pink-400 cursor-pointer {{bgpicker.value == 'bg-pink-400'?'outline outline-offset-2':''}}"></div>
+                  <div (click)="bgpicker.value = 'bg-blue-500'" class="w-[50px] h-[50px] rounded bg-blue-500 cursor-pointer {{bgpicker.value == 'bg-blue-500'?'outline outline-offset-2':''}} "></div>
+                  <div (click)="bgpicker.value = 'bg-white'" class="w-[50px] h-[50px] rounded border bg-gray-100 cursor-pointer {{bgpicker.value == 'bg-white'?'outline outline-offset-2':''}} "></div>
+                  <div (click)="bgpicker.value = 'bg-transparent'" class="w-[50px] h-[50px] rounded border bg-transparent cursor-pointer {{bgpicker.value == 'bg-transparent'?'outline outline-offset-2':''}} "></div>
+
+                </div>
+              </div>
+              <p class="silkscreen-bold shadow-text text-red-400">Tile Size</p>
+              <select class="w-full bg-amber-200 outline rounded silkscreen-bold shadow-text p-2 text-2xl" name="option"  #tileSize>
+                <option [value]="tileType.horizontal">Small</option>
+                <option [value]="tileType.big">Mid</option>
+                <option [value]="tileType.xl">Big</option>
+              </select>
+
+              <p class="silkscreen-bold shadow-text text-red-400">Id</p>
+              <input class="w-full h-[50px] outline rounded  shadow-text pl-2" placeholder="Name" type="text" #textName>
+              <div (click)="createTileText(textName.value , {value:textContent.value , color:colorpicker.value + ' ' + bgpicker.value} , tileSize.value)" class="w-full cursor-pointer h-[50px] mt-3 bg-pink-400 flex justify-center items-center silkscreen-bold shadow-text rounded hover:scale-105 duration-75">Create</div>
+
+            } @else {
+
+              <div class="">
+                <p class="silkscreen-bold shadow-text text-red-400">Icon Link</p>
+                <input class="w-full h-[50px] outline rounded  shadow-text pl-2" placeholder="Content" type="text" #iconLink>
+                <p class="silkscreen-bold shadow-text text-red-400">Link To Redirect</p>
+                <input class="w-full h-[50px] outline rounded  shadow-text pl-2" placeholder="Content" type="text" #toLink>
+
+              <p class="silkscreen-bold shadow-text text-red-400">Id</p>
+              <input class="w-full h-[50px] outline rounded  shadow-text pl-2" placeholder="Name" type="text" #imgId>
+                <p class="silkscreen-bold shadow-text text-red-400">Name</p>
+                <input class="w-full h-[50px] outline rounded  shadow-text pl-2" placeholder="Name" type="text" #imgName>
+              <div (click)="createTileImage(iconLink.value, toLink.value , imgId.value, imgName.value)"  class="w-full cursor-pointer h-[50px] mt-3 bg-pink-400 flex justify-center items-center silkscreen-bold shadow-text rounded hover:scale-105 duration-75">Create</div>
+              </div>
+            }
+          </div>
+          </div>
+        }
+        @default {
+          <app-under-construction></app-under-construction>
+        }
+      }
+    </div>
+  </div>
+</div>
+
+

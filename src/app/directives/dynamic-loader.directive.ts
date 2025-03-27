@@ -1,45 +1,52 @@
-
 import {
-  AfterViewInit,
-  ComponentRef,
-  Directive,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  Type,
-  ViewContainerRef
+  Directive, Input, OnDestroy, OnInit, OnChanges, SimpleChanges,
+  ViewContainerRef, ComponentRef, Type
 } from '@angular/core';
-import {Dynamic} from '../models/dynamic';
-
+import { Dynamic } from '../models/dynamic';
 
 @Directive({
   selector: '[appDynamicLoader]'
 })
-export class DynamicLoaderDirective implements OnInit, OnDestroy , AfterViewInit {
+export class DynamicLoaderDirective implements OnInit, OnDestroy, OnChanges {
+  @Input() component: Type<Dynamic> | undefined;
+  @Input() Data: any;
+  @Input() tests: any;
 
-  @Input() component: Type<Dynamic> | undefined = undefined;
-  @Input() Data:any = undefined;
-  constructor(private ViewContainerRef : ViewContainerRef , private elementRef : ElementRef) {
+  private componentRef: ComponentRef<Dynamic> | null = null;
 
-  }
+  constructor(private viewContainerRef: ViewContainerRef) {}
+
   ngOnInit() {
-
-
-  }
-  ngOnDestroy() {
-    this.ViewContainerRef.clear()
-    console.log("Destroyed")
+    this.renderComponent();
   }
 
-  ngAfterViewInit(): void {
-    if(this.component){
-      const componentRef = this.ViewContainerRef.createComponent<Dynamic>(this.component)
-      if (componentRef.instance && this.Data) {
-        componentRef.instance.Data = this.Data;
+  ngOnChanges(changes: SimpleChanges) {
+    // Re-render if component or Data changes
+      this.renderComponent();
+
+  }
+
+  private renderComponent() {
+    // Destroy previous component
+    if (this.componentRef) {
+      this.viewContainerRef.clear();
+      this.componentRef.destroy();
+      this.componentRef = null;
+    }
+
+    // Create new component if input provided
+    if (this.component) {
+      this.componentRef = this.viewContainerRef.createComponent<Dynamic>(this.component);
+      if (this.componentRef.instance && this.Data) {
+        this.componentRef.instance.Data = this.Data;
       }
     }
-    console.log(this.Data);
   }
 
+  ngOnDestroy() {
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
+    this.viewContainerRef.clear();
+  }
 }

@@ -14,6 +14,7 @@ import {WeatherComponent} from '../tiles/weather/weather.component';
 import {QuoteComponent} from '../tiles/quote/quote.component';
 import {InfoComponent} from '../tiles/info/info.component';
 import {BigInfoComponent} from '../tiles/big-info/big-info.component';
+import {ImgWrapperComponent} from '../tiles/img-wrapper/img-wrapper.component';
 
 
 // types and field
@@ -29,21 +30,28 @@ export enum tileType {
   big,
   xl,
 }
-type tile = {
+
+
+export type tile = {
+  id: string;
   component:Type<any>
   position: position,
   index : number[],
   type : tileType,
   zIndex: number,
+  display:boolean,
   data:any
-
+  name:string
+  builtIn:boolean,
 }
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArrangementService {
+
   allTile:tile[] = []
   displayTiles : WritableSignal<tile[][]> = signal([])
   tiles: WritableSignal<tile[]> = signal([]);
@@ -51,34 +59,190 @@ export class ArrangementService {
   dataService = inject(DataService);
   occupiedSpace:number[][] = []
 
+  custom_tile_component:WritableSignal<tile[]> =signal([])
+  tiles_component:WritableSignal< tile[]> =signal( [
+    {
+      component: InfoComponent,
+      position: { x: 0, y: 0 }, // Set position accordingly
+      index: [0],
+      type: tileType.horizontal,
+      zIndex: 1,
+      display:true,
+      data: {value:"Welcome!" , color:"text-white"},
+      name: "",
+      id:"Welcome",
+      builtIn:true
+    },
+
+    {
+      component: QuoteComponent,
+      position: { x: 2, y: 0 }, // Set position accordingly
+      index: [2],
+      type: tileType.horizontal,
+      zIndex: 1,
+      display:true,
+      data: undefined,
+      name:"Quote",
+      id:"Quote",
+      builtIn:true
+    },
+    {
+      component: ClockComponent,
+      position: { x: 3, y: 0 }, // Set position accordingly
+      index: [3],
+      type: tileType.small,
+      zIndex: 1,
+      display:true,
+      data: undefined,
+      name: "Clock",
+      id:"Clock",
+      builtIn:true
+    },
+    {
+      component: WeatherComponent,
+      position: { x: 4, y: 0 }, // Set position accordingly
+      index: [4],
+      type: tileType.big,
+      zIndex: 1,
+      display:true,
+      data: undefined,
+      name:"Weather",
+      id:"Weather",
+      builtIn:true
+    },
+    {
+      component: SocialmediaComponent,
+      position: { x: 5, y: 0 }, // Set position accordingly
+      index: [5],
+      type: tileType.small,
+      zIndex: 1,
+      display:true,
+      data: { imgSource: "https://img.icons8.com/plasticine/100/resume.png" , route:"./file/Resume.pdf" },
+      name: "Resume",
+      id:"Resume",
+      builtIn:true
+    },
+    {
+      component: SocialmediaComponent,
+      position: { x: 6, y: 0 }, // Set position accordingly
+      index: [6],
+      type: tileType.small,
+      zIndex: 1,
+      display:true,
+      data: { imgSource: "https://img.icons8.com/fluency/144/linkedin.png" , route:"https://www.linkedin.com/in/adarsha-kiran-khadka-53059b20b/" },
+      name:"Linkedin",
+      id:"Linkedin",
+      builtIn:true
+    },
+    {
+      component: SocialmediaComponent,
+      position: { x: 7, y: 0 }, // Set position accordingly
+      index: [7],
+      type: tileType.small,
+      zIndex: 1,
+      display:true,
+      data: { imgSource: "https://img.icons8.com/fluency/144/github.png" , route:"https://github.com/32-Adarsha?tab=repositories" },
+      name:"Github",
+      id:"Github",
+      builtIn:true
+    },
+    {
+      component: CalenderComponent,
+      position: { x: 8, y: 0 }, // Set position accordingly
+      index: [8],
+      type: tileType.small,
+      zIndex: 1,
+      display:true,
+      data: undefined,
+      name: "Calender",
+      id:"Calender",
+      builtIn:true
+    },
+    {
+      component: TicTacToeComponent,
+      position: { x: 9, y: 0 }, // Set position accordingly
+      index: [9],
+      type: tileType.small,
+      zIndex: 1,
+      display:true,
+      data: undefined,
+      name: "TicTacToe",
+      id:"TicTacToe",
+      builtIn:true
+    },
+    {
+      component: ProfileTileComponent,
+      position: { x: 10, y: 0 }, // Set position accordingly
+      index: [10],
+      type: tileType.vertical,
+      zIndex: 1,
+      display:true,
+      data: undefined,
+      name: "Profile",
+      id:"Profile",
+      builtIn:true
+    },
+    {
+      component: TetrisComponent,
+      position: { x: 11, y: 0 }, // Set position accordingly
+      index: [11],
+      display:true,
+      type: tileType.small,
+      zIndex: 1,
+      data: undefined,
+      name: "Tetris",
+      id:"Tetris",
+      builtIn:true
+    },
+    {
+      component: CertificateComponent,
+      position: { x: 12, y: 0 }, // Set position accordingly
+      index: [12],
+      display:true,
+      type: tileType.xl,
+      zIndex: 1,
+      data: './images/coursera.png',
+      name:"Machine Learning Certificate",
+      id:"Machine Learning Certificate",
+      builtIn:true
+    },
+    {
+      component: CertificateComponent,
+      position: { x: 13, y: 0 }, // Set position accordingly
+      index: [13],
+      type: tileType.xl,
+      zIndex: 1,
+      display:false,
+      data: './images/microsoft.png',
+      name: 'C# Certificate',
+      id:"C# Certificate",
+      builtIn:true
+    },
+    {
+      component: ImgWrapperComponent,
+      position: { x: 14, y: 0 }, // Set position accordingly
+      index: [0],
+      type: tileType.small,
+      zIndex: 1,
+      display:true,
+      data: "name",
+      name: "Setting",
+      id:"setting",
+      builtIn:true
+    },
+  ])
+
+
 
 
 
   constructor() {
+    this.allTile = this.tiles_component().filter(item => item.display)
+    this.setTileInWindow()
+  }
 
-    let components = [BigInfoComponent,InfoComponent,QuoteComponent,ClockComponent,WeatherComponent,SocialmediaComponent ,SocialmediaComponent, SocialmediaComponent,CalenderComponent , TicTacToeComponent , ProfileTileComponent , TetrisComponent , CertificateComponent ,CertificateComponent ];
-    let type_array = [tileType.big,tileType.horizontal , tileType.horizontal , tileType.small , tileType.big, tileType.small , tileType.small,tileType.small , tileType.small ,tileType.small, tileType.vertical , tileType.small , tileType.xl ,  tileType.xl ];
-    let component_data = ["test" ,{'msg':'Hi, Check out my Site you can drag and Drop' , 'color':"bg-blue-300"},undefined,undefined  ,undefined,{media:"resume"},{media:"linkedin"},{media:"github"}, undefined , undefined , undefined , undefined ,  './images/coursera.png' , './images/microsoft.png'];
-    for (let i = 0; i < components.length; i++) {
-
-      let newTile = {
-        position: {
-          x: 0,
-          y: 0,
-        },
-        component : components[i],
-        index: [i],
-        type: type_array[i],
-        zIndex: 0,
-        data:component_data[i],
-
-
-      }
-      this.allTile.push(newTile);
-
-    }
-
-
+  changedDisplay(){
+    this.allTile = this.tiles_component().filter(item => item.display)
     this.setTileInWindow()
   }
 
@@ -147,12 +311,9 @@ export class ArrangementService {
 
   setTileInWindow(){
     let dimension = this.getDimension()
-    // if(this.dataService.getData<tile[][]>(dimension) != null){
-    //   this.displayTiles.set(this.dataService.getData<tile[][]>(dimension)!)
-    //   this.occupiedSpace = this.dataService.getData<number[][]>(dimension+"_o")!
-    // } else {
+
       let temp_tiles = this.allTile;
-      let count = 0
+      let prev = temp_tiles.length
       this.displayTiles.set([])
       this.occupiedSpace = []
       while (temp_tiles.length > 0) {
@@ -160,15 +321,14 @@ export class ArrangementService {
         let result = this.rearrangeTiles(temp_tiles, this.occupiedSpace.length - 1);
         this.displayTiles().push(result.set)
         temp_tiles = result.left
-
-        count++
-      //}
-
-      let new_windows_tile = this.displayTiles()
-      this.displayTiles.set(new_windows_tile)
-
-      //this.dataService.saveData<tile[][]>(dimension, new_windows_tile)
-      //this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
+        let newprev = temp_tiles.length
+        if (newprev == prev) {
+          break
+        } else {
+          prev = newprev
+        }
+        let new_windows_tile = this.displayTiles()
+        this.displayTiles.set(new_windows_tile)
     }
 
   }
@@ -184,10 +344,13 @@ export class ArrangementService {
     let readableTiles: tile[] = []
     let counter = 0;
     let numElement = this.tileService.state().countColumn * this.tileService.state().countRow;
+
+
     for(let i = 0; i < numElement; i++) {
       counter = 0
       let canPlace = false;
-      while(counter < tempTiles.length && !canPlace) {
+      while(counter < tempTiles.length && !canPlace && numElement > 0) {
+
         let element = tempTiles[counter]
         let occupancy = this.getTileOccupancy(element.type , this.get2DArray(i))
 

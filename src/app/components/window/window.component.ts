@@ -1,8 +1,19 @@
-import {AfterViewInit, Component, inject, OnChanges} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  signal,
+  WritableSignal
+} from '@angular/core';
 import {TileServiceService} from '../../service/tile-service.service';
 import {CdkDrag, CdkDragDrop, CdkDragRelease} from '@angular/cdk/drag-drop';
 import {ArrangementService, tileType} from '../../service/arrangment.service';
 import {DynamicLoaderDirective} from '../../directives/dynamic-loader.directive';
+import {SettingComponent} from '../../rComponent/setting/setting.component';
+import {PopWindowService} from '../../service/pop-window.service';
 
 
 
@@ -20,20 +31,24 @@ enum mouseAction {
   selector: 'app-window',
   imports: [
     CdkDrag,
-    DynamicLoaderDirective
+    DynamicLoaderDirective,
+    SettingComponent,
+
   ],
   templateUrl: './window.component.html',
   styleUrl: './window.component.css'
 })
 export class WindowComponent implements AfterViewInit {
+  @Input() size:{x:number; y:number}|undefined;
   isScrolling : any;
   isResizeS:any;
   isAnimation:any;
   totalElement : number = 0;
-  rerender:number = 0
+  rerender:WritableSignal<number>= signal(0)
   tileService:TileServiceService = inject(TileServiceService);
   arrangService:ArrangementService = inject(ArrangementService);
-
+  popService:PopWindowService = inject(PopWindowService);
+  public valueToRender: any;
 
   ngAfterViewInit(): void {
     // need to destroy event listener.
@@ -49,16 +64,19 @@ export class WindowComponent implements AfterViewInit {
     window.addEventListener('resize' , (event) => {
       clearTimeout(this.isResizeS);
       this.isResizeS = setTimeout(() => {
-        this.tileService.resetSize()
-        // this.arrangService.reorderTiles()
-        this.rerender = this.rerender + 1
-        console.log(this.rerender)
+         this.tileService.resetSize()
         this.arrangService.setTileInWindow()
+        // this.arrangService.reorderTiles()
       } , 100)
     })
 
+    window.addEventListener('resize', (event) => {
+      this.rerender.set(this.rerender()+1)
+
+    })
+
   }
-  constructor() {
+  constructor(private cdr:ChangeDetectorRef) {
     this.totalElement = this.tileService.state().countRow * this.tileService.state().countColumn;
   }
   onRelease(event:CdkDragRelease , idList:number , pos:number[] , type:tileType , window:number) {
@@ -71,8 +89,10 @@ export class WindowComponent implements AfterViewInit {
     };
 
     this.arrangService.snapTile(event.source.getFreeDragPosition() , currPost , idList , pos , type , window);
+    console.log('onRelease' , type , idList);
   }
-  getTileSize(type : tileType) {
+  getTileSize(type : tileType , name:string) {
+
     switch(type) {
       case tileType.big:
         return {
@@ -80,7 +100,6 @@ export class WindowComponent implements AfterViewInit {
           "height": this.tileService.state().tileSize * 2
         };
       case tileType.horizontal:
-
         return {
           "width": this.tileService.state().tileSize * 2,
           "height": this.tileService.state().tileSize

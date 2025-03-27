@@ -4,7 +4,7 @@
     <div class="absolute -top-10">{{this.getInfo(whoseTurn)}}</div>
     @for(elem of tttgrid() ; track $index){
       <div (click)="updateContent($index , this.playerTurn)" class="bg-gray-200 shadow-sm rounded-2xl flex justify-center items-center overflow-clip">
-        <div class="w-full h-full flex justify-center items-center ">
+        <div class="w-full h-full flex justify-center items-center silkscreen-bold shadow-text ">
           @if(elem == 'x'){
             <p class="zhi-mang-xing-regular md:text-9xl  text-6xl text-red-400">x</p>
           } @else if (elem == 'o' || elem == 'b'){
@@ -15,17 +15,30 @@
       </div>
     }
   </div>
-  @if(displayMenu()){
+  @if(gameStatus == state.menu){
     <div class="absolute w-full h-full flex justify-center items-center bg-gray-100 blur-lg p-10"></div>
     <div class="absolute w-full h-full flex justify-center items-center">
-      <div class="w-full h-full md:w-[350px] md:h-[350px] rounded-2xl  opacity-95 flex flex-col justify-center items-center p-5 gap-2">
-        <p class="text-5xl font-serif font-bold">Tic Tac Toe</p>
+      <div class="w-full h-full md:w-[450px] md:h-[450px] rounded-2xl  opacity-95 flex flex-col justify-center items-center p-5 gap-2">
+        <div class="text-5xl font-serif font-bold silkscreen-bold shadow-text">
+          Tic
+          Tac
+          Toe</div>
 
-        <button (click)="onClickPlay(GameMode.single)" class="w-full bg-black text-white h-[50px] rounded-md font-bold text-3xl">Single</button>
-        <button (click)="onClickPlay(GameMode.multiple)" class="w-full bg-black text-white h-[50px] rounded-md font-bold text-3xl">MultiPlayer</button>
-        <button (click)="onExit()" class="w-full bg-black text-white h-[50px] rounded-md font-bold text-3xl">Exit</button>
+        <button (click)="onClickPlay(GameMode.single)" class="w-full bg-white outline-1 text-black h-[50px] rounded-md silkscreen-bold shadow-text hover:scale-105 duration-75  text-3xl">Single</button>
+        <button (click)="onClickPlay(GameMode.multiple)" class="w-full bg-white outline-1 text-black h-[50px] rounded-md silkscreen-bold shadow-text hover:scale-105 duration-75  font-bold text-3xl">MultiPlayer</button>
+        <button (click)="onExit()" class="w-full bg-white outline-1 text-black h-[50px] rounded-md font-bold silkscreen-bold hover:scale-105 duration-75 shadow-text  text-3xl">Exit</button>
       </div>
     </div>
+  } @else if (gameStatus == state.winner) {
+    <div class="absolute w-full h-full flex justify-center items-center backdrop-blur backdrop-grayscale  p-10">
+      <div class="w-[500px] h-[500px] bg-white silkscreen-bold text-9xl shadow-text flex justify-center items-center">
+        {{ messange }}
+      </div>
+    </div>
+
   }
+
+
+
 
 </div>

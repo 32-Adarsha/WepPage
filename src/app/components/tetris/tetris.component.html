@@ -1,13 +1,13 @@
-<div class="relative w-screen h-screen flex flex-row justify-center items-center">
+<div class="relative w-screen h-screen flex flex-row justify-center items-center p-3">
   @if(tService.status() == GameStatus.Home ){
     <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white">
-      <div class=" max-w-[400px]  max-h-[450px]  bg-gray-100  rounded flex flex-col justify-end p-5 gap-3">
-        <div class="orbitron w-full p-3 text-7xl font-extrabold flex justify-center items-center text-red-400"><span class="text-pink-500">T</span><span class="text-purple-500">E</span>T<span class="text-gray-700">R</span><span class="text-teal-500">I</span>S</div>
-        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">A</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Left Move</p></div>
-        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">D</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Right Move</p></div>
-        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">R</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Rotate</p></div>
-        <div class="relative w-full h-[50px] flex justify-start items-center"><p class="h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold px-1">Space</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Speed Up</p></div>
-        <button (click)="tService.start()" class="bg-red-400 h-[50px] rounded text-3xl font-extrabold text-white hover:scale-105 duration-100"> PLAY </button>
+      <div class="   bg-white outline rounded  rounded flex flex-col justify-end p-5 gap-3">
+        <div class="w-full p-3 text-6xl  flex justify-center items-center text-red-400 silkscreen-bold shadow-text">Tetris</div>
+        <div class="shadow-text silkscreen-bold relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center  bg-black  text-white rounded text-3xl font-extrabold">A</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Left Move</p></div>
+        <div class="shadow-text silkscreen-bold relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">D</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Right Move</p></div>
+        <div class="shadow-text silkscreen-bold relative w-full h-[50px] flex justify-start items-center"><p class="w-[40px] h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold">R</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Rotate</p></div>
+        <div class="shadow-text silkscreen-bold relative w-full h-[50px] flex justify-start items-center"><p class="h-[40px] flex justify-center items-center bg-black  text-white rounded text-3xl font-extrabold px-1">Space</p> <p class="absolute right-0 bottom-0 h-full flex justify-start items-center text-2xl font-bold">Speed Up</p></div>
+        <button (click)="tService.start()" class="silkscreen-bold bg-red-400 h-[50px] rounded text-3xl shadow-text text-white hover:scale-105 duration-100"> PLAY </button>
 
       </div>
     </div>
@@ -75,13 +75,13 @@
       <div class="relative w-[50%] text-center">
         <div class="relative w-full h-full">
           <div class="w-full flex flex-row justify-center">
-            <div (click)="showClickEffect($event , 'R')" (touchend)="showClickEffect($event, 'R')" class="p-2 but-shadow w-[40px] h-[40px] rounded-full bg-green-600 text-white font-bold cursor-pointer">R</div>
+            <div (click)="showClickEffect($event , 'R')" (touchend)="showClickEffect($event, 'R')" class="shadow-text silkscreen-bold p-2 but-shadow w-[40px] h-[40px] rounded-full bg-green-600 text-white font-bold cursor-pointer">R</div>
           </div>
           <div class="w-full flex flex-row justify-between">
-            <div (click)="showClickEffect($event, 'A')" (touchstart)="showClickEffect($event, 'A')" class="p-2 but-shadow  w-[40px] h-[40px] rounded-full bg-red-500 text-white font-bold cursor-pointer">A</div>
-            <div (click)="showClickEffect($event, 'D')" (touchstart)="showClickEffect($event, 'D')"  class="p-2 but-shadow w-[40px] h-[40px] rounded-full bg-yellow-500 text-white font-bold cursor-pointer">D</div>
+            <div (click)="showClickEffect($event, 'A')" (touchstart)="showClickEffect($event, 'A')" class="shadow-text silkscreen-bold p-2 but-shadow  w-[40px] h-[40px] rounded-full bg-red-500 text-white font-bold cursor-pointer">A</div>
+            <div (click)="showClickEffect($event, 'D')" (touchstart)="showClickEffect($event, 'D')"  class="shadow-text silkscreen-bold p-2 but-shadow w-[40px] h-[40px] rounded-full bg-amber-400 text-white font-bold cursor-pointer">D</div>
           </div>
-          <div class="w-full p-1"><p (mouseup)="touchLeave()"  (mousedown)="showClickEffect($event, ' ')" (touchstart)="showClickEffect($event, ' '); touchStart()" (touchend)="touchLeave()" class="bg-red-500 but-shadow cursor-pointer rounded  text-white font-bold">Space</p></div>
+          <div class="w-full p-1"><p (mouseup)="touchLeave()"  (mousedown)="showClickEffect($event, ' ')" (touchstart)="showClickEffect($event, ' '); touchStart()" (touchend)="touchLeave()" class="shadow-text silkscreen-bold bg-red-400 but-shadow cursor-pointer rounded  text-white font-bold">Space</p></div>
         </div>
 
       </div>

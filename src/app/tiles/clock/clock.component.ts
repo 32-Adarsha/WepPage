@@ -43,9 +43,9 @@ export class ClockComponent {
       case ClockPointer.hour:
         return this.tileService.state().screen_size == screenSize.mobile ? 25 : 40;
       case ClockPointer.minute:
-        return this.tileService.state().screen_size == screenSize.mobile ? 35 : 50;
+        return this.tileService.state().screen_size == screenSize.mobile ? 30: 50;
       default:
-        return this.tileService.state().screen_size == screenSize.mobile ? 38 : 52;
+        return this.tileService.state().screen_size == screenSize.mobile ? 32 : 52;
     }
   }
 

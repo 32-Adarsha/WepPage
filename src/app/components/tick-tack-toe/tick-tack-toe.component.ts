@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 enum state {
   menu,
-  won,
+  winner,
   playing
 }
 
@@ -31,8 +31,9 @@ export class TickTackToeComponent {
   gameMode = GameMode.single
   winner : WritableSignal<boolean> = signal(false)
   displayMenu:WritableSignal<boolean> = signal(true);
-  messange = '"Prepare yourself! I’m about to show you how a real master plays Tic-Tac-Toe.",'
+  messange = ''
   playerTurn = Turn.x
+
 
   getBotMove(){
     let move = [0 , 1 , 2 , 3 , 4, 5 , 6 ,7 ,8]
@@ -40,7 +41,7 @@ export class TickTackToeComponent {
     let randomMove = possibleMove[Math.floor(Math.random() * possibleMove.length)]
     setTimeout(() => {
       this.updateContent(randomMove , Turn.bot)
-    } , 500)
+    } , 200)
 
   }
 
@@ -66,9 +67,9 @@ export class TickTackToeComponent {
 
   onClickPlay(gameMode:GameMode){
     this.gameMode = gameMode
-    if(this.gameMode==GameMode.multiple){
-      this.whoseTurn = Turn.x
-    }
+    this.whoseTurn = Turn.x
+    this.playerTurn = Turn.x
+    console.log(this.whoseTurn)
     this.gameStatus = state.playing
     this.displayMenu.set(false)
     this.winner.set(false)
@@ -130,7 +131,12 @@ export class TickTackToeComponent {
         if (data.won) {
           setTimeout(() => {
             this.winner.set(true)
-            alert(`${data.winner} won the game`)
+            this.gameStatus = state.winner
+            this.setWinningMessage(data.winner)
+            setTimeout(() => {
+
+              this.gameStatus = state.menu
+            } , 2000)
             this.resetGrid()
             this.displayMenu.set(true)
           }, 100)
@@ -138,7 +144,11 @@ export class TickTackToeComponent {
         } else if (this.checkDraw()) {
           setTimeout(() => {
             this.winner.set(true)
-            alert(`Draw`)
+            this.gameStatus = state.winner
+            this.messange = 'Draw'
+            setTimeout(() => {
+              this.gameStatus = state.menu
+            } , 2000)
             this.resetGrid()
             this.displayMenu.set(true)
           }, 100)
@@ -149,6 +159,18 @@ export class TickTackToeComponent {
       if (this.gameMode == GameMode.single && this.whoseTurn == Turn.bot) {
         this.getBotMove()
       }
+    }
+  }
+
+  setWinningMessage(winner: string){
+    if(this.gameMode == GameMode.single && winner == 'x'){
+      this.messange = 'Winner'
+    } else if(this.gameMode == GameMode.single && winner != 'x'){
+      this.messange = 'Lost'
+    } else if(this.gameMode == GameMode.multiple && winner == 'x'){
+      this.messange = 'Player 1 Won'
+    }else {
+      this.messange = 'Player 2 Won'
     }
   }
 
@@ -179,4 +201,5 @@ export class TickTackToeComponent {
 
   protected readonly Turn = Turn;
   protected readonly GameMode = GameMode;
+  protected readonly state = state;
 }

@@ -1,11 +1,11 @@
 <p class="text-4xl md:text-4xl lg:text-5xl pt-10 w-[80%] text-start  silkscreen-bold "><span class="text-emerald-500 shadow-text">Skills</span> </p>
 
-<div class="flex flex-col justify-around h-ful w-full ">
+<div class="flex flex-col justify-around h-full w-full ">
   <div>
-    <p class="text-2xl pt-4 w-full text-start  silkscreen-bold"><span class="text-red-400 shadow-text">Language</span> </p>
-    <div class="relative flex flex-row pt-5 flex-wrap  gap-2  justify-start px-1">
+
+    <div class="relative flex flex-row pt-5 flex-wrap  gap-4  justify-start px-1">
       @for (item of lang; track $index) {
-        <div class="w-[50px] md:w-[55px] m lg:w-[70px] flex flex-col justify-center items-center   hover:scale-125 duration-75">
+        <div class="w-[50px] md:w-[55px] lg:w-[70px] flex flex-col justify-center items-center   hover:scale-125 duration-75">
           <img  class="object-cover drop-shadow-xl" src="./sicon/{{item[0]}}.png">
           <p class="silkscreen-regular text-fuchsia-500 shadow-text">{{item[1]|star}}</p>
         </div>
@@ -15,16 +15,7 @@
   </div>
 
   <div>
-    <p class="text-2xl pt-4 w-full text-start  silkscreen-bold"><span class="text-red-400 shadow-text">Software</span> </p>
-    <div class="relative flex flex-row pt-5 flex-wrap  gap-2  justify-start px-1 ">
-      @for (item of soft; track $index) {
-        <div class="w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[70px] lg:h-[70px] flex flex-col justify-center items-center hover:scale-125 duration-75 ">
-          <img class="object-cover drop-shadow-2xl" src="./sicon/{{item[0]}}.png">
-          <p class="silkscreen-regular text-fuchsia-500 shadow-text">{{ item[1]|star }}</p>
-        </div>
-      }
 
-    </div>
   </div>
 </div>
 

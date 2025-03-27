@@ -4,6 +4,13 @@ import {GtlfloaderService} from "../../service/gtlfloader.service";
 import {OrbitControls} from "three-stdlib";
 import {TileServiceService} from "../../service/tile-service.service";
 import {StatComponent} from '../../rComponent/stat/stat.component';
+import {Router} from '@angular/router';
+import {NgOptimizedImage} from '@angular/common';
+import {WindowComponent} from '../window/window.component';
+import {DynamicLoaderDirective} from '../../directives/dynamic-loader.directive';
+import {TicTacToeComponent} from '../../tiles/tic-tac-toe/tic-tac-toe.component';
+import {tile, tileType} from '../../service/arrangment.service';
+import {TetrisComponent} from '../../tiles/tetris/tetris.component';
 
 
 enum sOption {
@@ -17,16 +24,19 @@ enum sOption {
 @Component({
   selector: 'app-profile',
   imports: [
-    StatComponent
+    StatComponent,
+
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements AfterViewInit , OnDestroy {
+
+
   models = ['./model/gTest.glb' , './model/pModel.glb' , './model/profile_d.glb' ]
   scrolledDown = 0
   mdlIdx = 0
-  newPaper: any;
+
   loaded = false
   newLoaded = true
   selected :sOption = sOption.Profile
@@ -54,6 +64,7 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
   private controls!: OrbitControls;
   private model!: THREE.Group;
   tileService = inject(TileServiceService);
+  route = inject(Router);
   constructor(private gltfLoader: GtlfloaderService) {
     window.addEventListener('resize', () => {this.onWindowResize()})
     window.addEventListener('touchstart', (event) => {
@@ -238,13 +249,7 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
     this.getFontSize()
   }
 
-  resetRotation() {
-    this.model.rotation.set(
-        this.originalRotationX,
-        this.originalRotationY - 0.4,
-        this.originalRotationZ
-    );
-  }
+
 
   getFontSize(){
     if(window.innerWidth < 768){
@@ -254,15 +259,11 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
     }
   }
 
-  addDrawAnimation(elem: HTMLElement) {
-    elem.classList.add('drawAnimation');
-  }
+
 
   protected readonly sOption = sOption;
 
-  isSelected(opt: sOption , color:string) {
-    return this.selected == opt ? this.getBgColor(opt) : 'bg-transparent';
-  }
+
 
   changeScreenOption(opt:sOption , down:number , elm:HTMLElement ) {
     this.selected = opt
@@ -272,28 +273,19 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
 
   }
 
-  getBgColor(opt:sOption) {
-    switch (opt){
-      case sOption.Experience:
-        return 'bg-amber-400';
-      case sOption.Profile:
-        return 'bg-purple-400';
-      case sOption.Contact:
-        return 'bg-orange-400';
-      case sOption.Other:
-        return 'bg-emerald-400';
-      default:
-        return 'bg-transparent';
-    }
-  }
 
 
-  protected readonly console = console;
   protected readonly window = window;
-  protected readonly Math = Math;
+
 
 
   setScrollDown(elm: HTMLDivElement) {
     this.scrolledDown = Math.round(elm.scrollTop / elm.clientHeight)
   }
+
+  getSize(wind: HTMLDivElement) {
+    return {x:wind.clientWidth,y:wind.clientHeight};
+  }
+
+  protected readonly TicTacToeComponent = TicTacToeComponent;
 }

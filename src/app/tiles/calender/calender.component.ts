@@ -24,7 +24,7 @@ export class CalenderComponent {
   fontSize(t : dateType):number{
     switch(this.tileService.state().screen_size){
       case screenSize.desktopLarge:
-        return t == dateType.day ? 50 : 24;
+        return t == dateType.day ? 60 : 24;
       case screenSize.tablet:
         return t == dateType.day ? 42:18;
       default:

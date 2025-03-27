@@ -48,12 +48,11 @@ export class TileServiceService {
   onScroll(event:Event){
     let elm = event.target as HTMLElement;
     this.currentWindow.set( Math.round(elm.scrollLeft / elm.offsetWidth));
-    //console.log(this.currentWindow);
+    console.log(this.currentWindow);
   }
 
-  resetSize(){
+  async resetSize() {
     // updating the screen width based on the size
-
     this.state().widthScreen = window.innerWidth;
     this.state().heightScreen = window.innerHeight;
 
@@ -70,13 +69,13 @@ export class TileServiceService {
 
     let newState = this.state();
     this.state.set(newState)
-    //console.log(this.state());
+
 
   }
 
   setSize(size:number){
-    let width = this.state().widthScreen - (2*this.state().constPadding);
-    let height = this.state().heightScreen - (2*this.state().constPadding);
+    let width = window.innerWidth- (2*this.state().constPadding);
+    let height = window.innerHeight - (2*this.state().constPadding);
     this.state().countColumn = Math.floor(width / size);
     this.state().countRow = Math.floor(height / size);
     this.state().paddingHorizontal = ((width- (Math.floor(width / size) * size)) / 2 ) + this.state().constPadding ;
@@ -85,12 +84,12 @@ export class TileServiceService {
   }
 
   getScreenSize():screenSize{
-    if(this.state().widthScreen < 641){
+    if(window.innerWidth < 641){
       this.state().screen_size = screenSize.mobile;
       this.state().constPadding = 15;
       return this.state().screen_size;
     }
-    else if(this.state().widthScreen < 1025){
+    else if(window.innerWidth < 1025){
       this.state().screen_size = screenSize.tablet;
       this.state().constPadding = 30;
       return this.state().screen_size;

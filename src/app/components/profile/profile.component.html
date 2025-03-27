@@ -8,7 +8,7 @@
     </div>
     <canvas #rendererCanvas class="rendererCanvas"></canvas>
 
-    <div  class="absolute bottom-5 w-full flex flex-row justify-center items-center  gap-3 ">
+    <div  class="absolute bottom-5 w-full lg:flex md:flex flex-row justify-center items-center  gap-3 lg:visible md:visible sm:hidden ">
       @for(item of models; track $index){
         <div id="{{$index}}selection" (click)="this.newModelLoaded(item , $index)" class="w-[20px] h-[20px] rounded-full  {{$index == mdlIdx ? 'scale-125 bg-emerald-500':'hover:scale-125 bg-gray-500'}}">
         </div>
@@ -17,12 +17,13 @@
   </div>
   @if(!loaded){
     <div class="w-full h-full bg-black flex flex-row justify-center items-center">
-      <img src="./images/loading.gif"/>
+      <img src="./images/loading.gif" alt="loading"/>
     </div>
   }@else{
+    <div class="absolute w-full h-full bg-white {{window.innerWidth < 641 ? 'opacity-90':'hidden'}} "></div>
+  <div class="h-full w-full flex flex-col justify-center items-center bg-amber-50  {{window.innerWidth < 641 ? 'absolute bg-transparent':''}} ">
 
-  <div class="h-full w-full flex flex-col justify-center items-center bg-amber-200  {{window.innerWidth < 641 ? 'hidden':''}} ">
-        <div (scroll)="setScrollDown(elm)"  class=" relative w-[90%] h-[90%] md:w-[80%] md:h-[85%] lg:w-[65%] lg:h-[70%]  rounded-2xl overflow-y-auto no-scrollbar snap-y snap-mandatory scroll-smooth" #elm>
+        <div (scroll)="setScrollDown(elm)"  class=" relative w-[90%] h-[90%] md:w-[80%] md:h-[90%] lg:w-[65%] lg:h-[80%]  rounded-2xl overflow-y-auto no-scrollbar snap-y snap-mandatory scroll-smooth" #elm>
           <div  class="w-full h-full absolute left-0 ">
           <div class="relative w-full h-full flex flex-col justify-start snap-start items-center">
             <p class="p-4 rounded w-full  text-gray-950 text-3xl md:text-4xl lg:text-5xl text-start  silkscreen-bold"><span class="text-purple-400 shadow-text">Hi</span>, </p>
@@ -33,42 +34,67 @@
               Explore my projects, and feel free to reach out if you'd like to collaborate or chat tech!
             </div>
 
-            <p class="absolute bottom-5 right-0 silkscreen-bold md:text-4xl lg:text:5xl text-2xl w-full text-right py-5 text-sky-500 shadow-text-sm "> -Adarsha </p>
+            <p class="absolute -bottom-0 right-0 silkscreen-bold md:text-4xl lg:text:5xl text-2xl w-full text-right py-5 text-sky-500 shadow-text-sm "> -Adarsha </p>
           </div>
-          <div class="w-full h-full flex flex-col justify-start items-start snap-start  ">
+          <div class="w-full h-full flex flex-col justify-start items-start snap-start ">
 
               <app-stat></app-stat>
 
 
           </div>
-          <div id="hobby"  class="w-full h-full flex flex-col justify-start items-start gap-5 snap-start">
 
-            <p class="text-2xl md:text-3xl lg:text-5xl py-10 w-[80%] text-start  silkscreen-bold "><span class="text-blue-400 shadow-text">Contact</span> </p>
+          <div id="hobby"  class="absolute w-full h-full flex flex-col justify-start items-start gap-5 snap-start">
+            <div class="absolute bottom-0 w-full text-center">4174198309 , 32kiran.adarsha&#64;gmail.com , Springfield , Missouri</div>
+            <p class="text-2xl md:text-3xl lg:text-5xl py-10 w-[80%] text-start  silkscreen-bold "><span class="text-blue-400 shadow-text">Contact & Games</span> </p>
 
-            <div class="w-full  flex flex-row justify-around items-center gap-2">
+            <div class="relative w-full grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-2 justify-around items-center gap-2">
 
               <a href="mailto:32kira.adarsha@gmail.com">
-                <div class="lg:w-[100px] md:w-[80px] w-[50px]">
+                <div class="lg:w-[100px] md:w-[80px] w-[80px] hover:scale-110 duration-75">
                   <img src="./sicon/mail.png" />
-                  <p class="w-full text-center silkscreen-regular text-lg md:text-2xl shadow-text">Gmail</p>
+                  <p class="w-full text-center silkscreen-regular text-lg md:text-2xl shadow-text ">Gmail</p>
                 </div>
               </a>
 
 
-              <div (click)="window.open('https://www.linkedin.com/in/adarsha-kiran-khadka-53059b20b/', '_blank')"  class="cursor-pointer lg:w-[100px] md:w-[80px] w-[50px]">
+              <div (click)="window.open('https://www.linkedin.com/in/adarsha-kiran-khadka-53059b20b/', '_blank')"  class="cursor-pointer lg:w-[100px] md:w-[80px] w-[80px] hover:scale-110 duration-75  ">
                 <img src="./sicon/link.png" />
-                <p class="w-full text-center silkscreen-regular text-lg md:text-2xl shadow-text">Linkedin</p>
+                <p class="w-full text-center silkscreen-regular text-sm md:text-xl shadow-text">Linkedin</p>
               </div>
-              <div (click)="window.open('https://github.com/32-Adarsha?tab=repositories', '_blank');" class="cursor-pointer lg:w-[100px] md:w-[80px] w-[50px]">
+              <div (click)="window.open('https://github.com/32-Adarsha?tab=repositories', '_blank');" class="cursor-pointer lg:w-[100px] md:w-[80px] w-[80px] hover:scale-110 duration-75">
                 <img src="./sicon/github.png" />
                 <p class="w-full text-center silkscreen-regular text-lg md:text-2xl shadow-text">Github</p>
               </div>
+
+
+              <div (click)="route.navigate(['/tictactoe'])" class="cursor-pointer lg:w-[100px] md:w-[80px] w-[80px] flex flex-col justify-center items-center hover:scale-110 duration-75">
+                <img src="./images/tic-tac-toe.png" />
+                <p class="w-full text-center silkscreen-regular text-lg md:text-2xl shadow-text">TicTacToe</p>
+              </div>
+
+              <div (click)="route.navigate(['/tetris'])" class="cursor-pointer lg:w-[100px] md:w-[80px] w-[80px] flex flex-col justify-center items-center hover:scale-110 duration-75">
+                <img class="w-full h-full" src="https://img.icons8.com/external-smashingstocks-flat-smashing-stocks/66/external-Tetris-casino-smashingstocks-flat-smashing-stocks.png" alt="external-Tetris-casino-smashingstocks-flat-smashing-stocks "/>
+
+                <p class="w-full text-center silkscreen-regular text-lg md:text-2xl shadow-text">Tetris</p>
+              </div>
+
+
+
+
+
             </div>
 
 
 
+
+
+
           </div>
-        </div>
+
+
+
+
+          </div>
         </div>
 
 
@@ -89,19 +115,16 @@
 
 
 <div [style.width.px]="window.innerHeight"  class="absolute flex flex-row-reverse justify-center items-center  gap-2  h-[45px] -top-[45px] origin-bottom-right -rotate-90  -right-3  ">
-  <div (click)="changeScreenOption(sOption.Profile, 0 , elm)" class="cursor-pointer text-white sm:text-black lg:text-black md:text-black outline outline-purple-400 text-lg pb-4  px-2 py-1.5 rounded-t boldonse-regular capitalize duration-75 hover:-translate-y-2 {{scrolledDown == 0 ? 'bg-purple-400':''}}">
+  <div (click)="changeScreenOption(sOption.Profile, 0 , elm)" class="cursor-pointer  sm:text-black lg:text-black md:text-black outline outline-purple-400 text-lg pb-4  px-2 py-1.5 rounded-t boldonse-regular capitalize duration-75 hover:-translate-y-2 {{scrolledDown == 0 ? 'bg-purple-400':''}}">
     Profile
   </div>
-  <div (click)="changeScreenOption(sOption.Experience , 1 , elm)"     class=" cursor-pointer text-white sm:text-black  lg:text-black md:text-black outline outline-amber-400 text-lg pb-4  px-2 py-1.5 rounded-t boldonse-regular capitalize duration-75  hover:-translate-y-2 {{scrolledDown == 1 ? 'bg-emerald-400':''}}">
+  <div (click)="changeScreenOption(sOption.Experience , 1 , elm)"     class=" cursor-pointer  sm:text-black  lg:text-black md:text-black outline outline-emerald-400 text-lg pb-4  px-2 py-1.5 rounded-t boldonse-regular capitalize duration-75  hover:-translate-y-2 {{scrolledDown == 1 ? 'bg-emerald-400':''}}">
     Skills
   </div>
-  <div  (click)="changeScreenOption(sOption.Contact , 2 , elm)"   class="  cursor-pointer text-white sm:text-black  lg:text-black md:text-black outline outline-orange-400  text-lg pb-4  px-2 py-1.5 rounded-t boldonse-regular capitalize duration-75  hover:-translate-y-2 {{scrolledDown == 2 ? 'bg-blue-400':''}}">
+  <div  (click)="changeScreenOption(sOption.Contact , 2 , elm)"   class="  cursor-pointer  sm:text-black  lg:text-black md:text-black outline outline-blue-400  text-lg pb-4  px-2 py-1.5 rounded-t boldonse-regular capitalize duration-75  hover:-translate-y-2 {{scrolledDown == 2 ? 'bg-blue-400':''}}">
     Contact
   </div>
 
-<!--  <div  (click)="changeScreenOption(sOption.Other, 2 , elm)"  class=" cursor-pointer text-white sm:text-black  lg:text-black md:text-black outline outline-emerald-400 text-lg  pb-4  px-2 py-1.5 rounded-t boldonse-regular capitalize duration-75  hover:-translate-y-2 {{isSelected(sOption.Other , 'emerald')}}">-->
-<!--    Hobby-->
-<!--  </div>-->
 
 
 </div>
@@ -110,10 +133,17 @@
 
 
   <div class=" absolute w-full bottom-5 left-0  flex lg:justify-center justify-end lg:items-center text-right animate-bounce px-2 ">
+    <div class="hover:scale-125" (click)="route.navigate(['/window'])">
       <svg fill="red" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 32 32">
         <path d="M28.447,11.583c-0.18-1.417-1.257-2.871-2.817-3.797c-1.425-0.832-2.82-1.674-4.167-2.487	c-1.407-0.85-2.763-1.667-4.045-2.41c-0.834-0.484-1.791-0.49-2.626-0.02c-1.409,0.794-2.904,1.682-4.46,2.604	C9.057,6.231,7.741,7.013,6.391,7.791c-1.572,0.92-2.66,2.38-2.84,3.812c-0.479,3.857-0.266,7.769,0.638,11.644	c0.502,1.978,2.587,4.092,4.572,4.623c2.402,0.592,4.82,0.888,7.239,0.888s4.837-0.296,7.239-0.888	c0.006-0.001,0.013-0.003,0.019-0.005c1.967-0.526,4.052-2.641,4.558-4.637C28.716,19.366,28.929,15.449,28.447,11.583z M20.115,25.303c-0.107,0.681-0.635,1.233-1.321,1.302c-1.856,0.188-3.714,0.189-5.567,0.004c-0.686-0.069-1.215-0.621-1.322-1.302	c-0.325-2.069-0.24-4.138,0.255-6.208c0.154-0.641,0.647-1.154,1.267-1.38c1.722-0.628,3.443-0.628,5.165,0	c0.62,0.226,1.113,0.739,1.267,1.38C20.355,21.167,20.44,23.235,20.115,25.303z"></path>
       </svg>
+    </div>
+
   </div>
+
+    <div class=" absolute  top-0 right-0 silkscreen-regular   text-xl shadow-text text-amber-50  px-2 ">
+      Welcome
+    </div>
 
 
 
