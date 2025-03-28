@@ -10,10 +10,4 @@ import {AfterViewInit, Component, Input} from '@angular/core';
 export class BigInfoComponent {
     @Input() Data: any;
 
-
-
-
-
-
-
 }

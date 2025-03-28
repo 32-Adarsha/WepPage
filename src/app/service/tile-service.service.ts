@@ -1,16 +1,5 @@
-import {Injectable, WritableSignal, signal, Type} from '@angular/core';
-import {BigInfoComponent} from '../tiles/big-info/big-info.component';
-import {CalenderComponent} from '../tiles/calender/calender.component';
-import {CertificateComponent} from '../tiles/certificate/certificate.component';
-import {ClockComponent} from '../tiles/clock/clock.component';
-import {ImgWrapperComponent} from '../tiles/img-wrapper/img-wrapper.component';
-import {InfoComponent} from '../tiles/info/info.component';
-import {ProfileTileComponent} from '../tiles/profile-tile/profile-tile.component';
-import {QuoteComponent} from '../tiles/quote/quote.component';
-import {SocialmediaComponent} from '../tiles/socialmedia/socialmedia.component';
-import {TetrisComponent} from '../tiles/tetris/tetris.component';
-import {TicTacToeComponent} from '../tiles/tic-tac-toe/tic-tac-toe.component';
-import {WeatherComponent} from '../tiles/weather/weather.component';
+import {Injectable, WritableSignal, signal} from '@angular/core';
+
 
 
 

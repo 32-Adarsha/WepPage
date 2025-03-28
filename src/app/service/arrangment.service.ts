@@ -250,6 +250,7 @@ export class ArrangementService {
     let dimension = this.tileService.state().countColumn.toString() + this.tileService.state().countRow.toString()
     let data = this.lSave.getData(dimension)
     if(data.v){
+      console.log("data" , data.v)
       return data.v
     }else if(data.hasGrid){
       this.actiontaken()
