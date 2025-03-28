@@ -69,15 +69,11 @@ export class TickTackToeComponent {
     this.gameMode = gameMode
     this.whoseTurn = Turn.x
     this.playerTurn = Turn.x
-    console.log(this.whoseTurn)
     this.gameStatus = state.playing
     this.displayMenu.set(false)
     this.winner.set(false)
   }
 
-  onGameFinish(){
-    this.gameStatus = state.menu
-  }
 
   checkWin(){
     let won = false
@@ -118,7 +114,6 @@ export class TickTackToeComponent {
 
 
   updateContent(index:number , turn: Turn){
-    console.log(turn)
     if(turn != this.whoseTurn){
 
     }else {
@@ -164,9 +159,9 @@ export class TickTackToeComponent {
 
   setWinningMessage(winner: string){
     if(this.gameMode == GameMode.single && winner == 'x'){
-      this.messange = 'Winner'
+      this.messange = 'You Won'
     } else if(this.gameMode == GameMode.single && winner != 'x'){
-      this.messange = 'Lost'
+      this.messange = 'Lost! Bot Win'
     } else if(this.gameMode == GameMode.multiple && winner == 'x'){
       this.messange = 'Player 1 Won'
     }else {
@@ -175,23 +170,14 @@ export class TickTackToeComponent {
   }
 
   getInfo(turn:Turn){
-    const botDialogue: string[] = [
-      "Are you sure you're ready for this? I hope your X's and O's are up for the challenge!",
-      "You'll be lucky if you manage to get one move in before I win!",
-      "Haha, don’t worry, I’ll make it quick. No one can outsmart me in Tic-Tac-Toe!",
-      "Are you trying to win, or just make me feel good by letting me win early?",
-      "Let me know when you’re ready for the rematch… if you even manage to win once!",
-      "You may want to take notes; you’re about to learn some Tic-Tac-Toe tricks.",
-      "Nice move! It won’t matter. I’ve already planned my victory!",
-      "Oops, did I win again? Guess you’ll just have to try harder next time!"
-    ];
+
     switch (turn){
       case Turn.x:
-        return "Player 1 Turn"
+        return "Turn: Player 1"
       case Turn.o:
-        return "Player 2 Turn"
+        return "Turn: Player 2"
       default:
-        return "Bot Turn"
+        return "Bot Thinking ..."
     }
   }
 
@@ -199,7 +185,7 @@ export class TickTackToeComponent {
     this.route.navigate([''])
   }
 
-  protected readonly Turn = Turn;
+
   protected readonly GameMode = GameMode;
   protected readonly state = state;
 }

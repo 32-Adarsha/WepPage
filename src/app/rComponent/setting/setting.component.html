@@ -58,16 +58,16 @@
               <option value="Text">Text</option>
               <option value="Image">Image</option>
             </select>
-          <div [style.height.px]="getPreferHeight(slectH)" class="w-full overflow-scroll px-1">
+          <div [style.height.px]="getPreferHeight(slectH)" class="w-full overflow-scroll px-1 scrollwidth">
 
 
             @if(selectType.value == 'Text'){
-              <div class="">
+              <div class="scrollwidth ">
                   <p class="silkscreen-bold shadow-text text-red-400">Text Content</p>
                   <input class="w-full h-[50px] outline rounded  shadow-text pl-2" placeholder="Content" type="text" #textContent>
                 <p class="silkscreen-bold shadow-text text-red-400">Color</p>
                   <input value="text-amber-500" type="text" class="hidden" #colorpicker>
-                <div id="color-selection" class="flex flex-row gap-2 flex-wrap">
+                <div id="color-selection" class="flex flex-row gap-2 flex-wrap scrollwidth">
                   <div (click)="colorpicker.value = 'text-amber-500'" class="w-[50px] h-[50px] rounded bg-amber-500 cursor-pointer {{colorpicker.value == 'text-amber-500'?'outline outline-offset-2':''}} "></div>
                   <div (click)="colorpicker.value = 'text-black'" class="w-[50px] h-[50px] rounded bg-black cursor-pointer {{colorpicker.value == 'text-black'?'outline outline-offset-2':''}}"></div>
                   <div (click)="colorpicker.value = 'text-green-400'" class="w-[50px] h-[50px] rounded bg-green-400 cursor-pointer {{colorpicker.value == 'text-green-400'?'outline outline-offset-2':''}}"></div>

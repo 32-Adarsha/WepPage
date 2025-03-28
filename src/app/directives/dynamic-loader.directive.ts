@@ -21,20 +21,20 @@ export class DynamicLoaderDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // Re-render if component or Data changes
+
       this.renderComponent();
 
   }
 
   private renderComponent() {
-    // Destroy previous component
+
     if (this.componentRef) {
       this.viewContainerRef.clear();
       this.componentRef.destroy();
       this.componentRef = null;
     }
 
-    // Create new component if input provided
+
     if (this.component) {
       this.componentRef = this.viewContainerRef.createComponent<Dynamic>(this.component);
       if (this.componentRef.instance && this.Data) {

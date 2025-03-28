@@ -24,7 +24,6 @@ export class QuoteComponent implements OnInit, AfterViewInit {
       let currentDate = new Date();
       let day = currentDate.getDate();
       if (day != quoteData.day){
-
         let  quote = await this.fetchQuote();
         localStorage.setItem("quote", JSON.stringify({q:quote , day:currentDate}));
         this.quote = quote;

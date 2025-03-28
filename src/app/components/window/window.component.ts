@@ -1,28 +1,19 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   inject,
   Input,
-  OnChanges,
   signal,
   WritableSignal
 } from '@angular/core';
 import {TileServiceService} from '../../service/tile-service.service';
-import {CdkDrag, CdkDragDrop, CdkDragRelease} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragRelease} from '@angular/cdk/drag-drop';
 import {ArrangementService, tileType} from '../../service/arrangment.service';
 import {DynamicLoaderDirective} from '../../directives/dynamic-loader.directive';
 import {SettingComponent} from '../../rComponent/setting/setting.component';
 import {PopWindowService} from '../../service/pop-window.service';
 
 
-
-
-enum mouseAction {
-  down,
-  up,
-  click,
-}
 
 
 
@@ -48,7 +39,7 @@ export class WindowComponent implements AfterViewInit {
   tileService:TileServiceService = inject(TileServiceService);
   arrangService:ArrangementService = inject(ArrangementService);
   popService:PopWindowService = inject(PopWindowService);
-  public valueToRender: any;
+
 
   ngAfterViewInit(): void {
     // need to destroy event listener.
@@ -61,22 +52,22 @@ export class WindowComponent implements AfterViewInit {
     );
 
     // event listener for resize
-    window.addEventListener('resize' , (event) => {
+    window.addEventListener('resize' , () => {
       clearTimeout(this.isResizeS);
       this.isResizeS = setTimeout(() => {
          this.tileService.resetSize()
-        this.arrangService.setTileInWindow()
+        this.arrangService.changedDisplay()
         // this.arrangService.reorderTiles()
       } , 100)
     })
 
-    window.addEventListener('resize', (event) => {
+    window.addEventListener('resize', () => {
       this.rerender.set(this.rerender()+1)
 
     })
 
   }
-  constructor(private cdr:ChangeDetectorRef) {
+  constructor() {
     this.totalElement = this.tileService.state().countRow * this.tileService.state().countColumn;
   }
   onRelease(event:CdkDragRelease , idList:number , pos:number[] , type:tileType , window:number) {
@@ -89,7 +80,7 @@ export class WindowComponent implements AfterViewInit {
     };
 
     this.arrangService.snapTile(event.source.getFreeDragPosition() , currPost , idList , pos , type , window);
-    console.log('onRelease' , type , idList);
+
   }
   getTileSize(type : tileType , name:string) {
 
@@ -135,7 +126,7 @@ export class WindowComponent implements AfterViewInit {
       this.arrangService.changeZIndex(window , idx , 100)
     } , 400)
 
-    document.addEventListener('mouseup', (event: MouseEvent) => {
+    document.addEventListener('mouseup', () => {
       clearTimeout(this.isAnimation);
       target.classList.remove('pop-animation');
     })
@@ -155,9 +146,9 @@ export class WindowComponent implements AfterViewInit {
   }
 
   protected readonly Array = Array;
-  protected readonly console = console;
 
-  getId(index: number) {
-    return "tile_" + index.toString();
+
+  getId(index: number , dow:number) {
+    return "tile_"+dow + "w" + index.toString();
   }
 }

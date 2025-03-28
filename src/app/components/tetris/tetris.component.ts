@@ -21,7 +21,6 @@ export class TetrisComponent {
     this.gameWidthSize = this.getTetrisWidth()
     window.addEventListener('resize', ()=> {
       this.gameWidthSize = this.getTetrisWidth()
-      console.log(this.gameWidthSize)
     })
   }
 

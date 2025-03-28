@@ -1,7 +1,7 @@
 <div class="w-screen h-screen flex justify-center items-center">
 
   <div class="relative md:w-[400px] md:h-[400px] w-[200px] h-[200px] bg-white grid grid-cols-3 grid-rows-3 gap-3">
-    <div class="absolute -top-10">{{this.getInfo(whoseTurn)}}</div>
+    <div class="absolute -top-20 silkscreen-bold shadow-text">{{this.getInfo(whoseTurn)}}</div>
     @for(elem of tttgrid() ; track $index){
       <div (click)="updateContent($index , this.playerTurn)" class="bg-gray-200 shadow-sm rounded-2xl flex justify-center items-center overflow-clip">
         <div class="w-full h-full flex justify-center items-center silkscreen-bold shadow-text ">
@@ -31,7 +31,7 @@
     </div>
   } @else if (gameStatus == state.winner) {
     <div class="absolute w-full h-full flex justify-center items-center backdrop-blur backdrop-grayscale  p-10">
-      <div class="w-[500px] h-[500px] bg-white silkscreen-bold text-9xl shadow-text flex justify-center items-center">
+      <div class="w-[500px] h-[500px] bg-white silkscreen-bold text-3xl shadow-text flex justify-center items-center">
         {{ messange }}
       </div>
     </div>

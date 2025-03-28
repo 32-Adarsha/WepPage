@@ -5,6 +5,7 @@ import {SocialmediaComponent} from '../../tiles/socialmedia/socialmedia.componen
 import {InfoComponent} from '../../tiles/info/info.component';
 import {PopWindowService} from '../../service/pop-window.service';
 import {UnderConstructionComponent} from '../under-construction/under-construction.component';
+import {LocalsaveService} from '../../service/localsave.service';
 
 enum sWindow {
   Wallpaper,
@@ -23,23 +24,24 @@ enum sWindow {
   styleUrl: './setting.component.css'
 })
 export class SettingComponent {
-   selection = sWindow.Wallpaper;
-   arrService = inject(ArrangementService)
+  selection = sWindow.Preferences;
+  arrService = inject(ArrangementService)
   popService = inject(PopWindowService)
-
+  lsave = inject(LocalsaveService)
    changeSelection(s :sWindow): void {
      this.selection = s;
    }
 
 
   protected readonly sWindow = sWindow;
-  protected readonly console = console;
+
 
   tiggerChange(idx:number , value:boolean) {
    let newComp = this.arrService.tiles_component()
     newComp[idx].display = !value;
    this.arrService.tiles_component.set(newComp)
-   this.arrService.changedDisplay()
+
+    this.arrService.createNewGrid()
   }
 
 
@@ -61,7 +63,7 @@ export class SettingComponent {
   }, type: string, component: Type<any> = InfoComponent) {
 
     let newTile:tile = {
-      component:component,
+      component:InfoComponent,
       position: {x:0 , y:0},
       index : [],
       type : this.getTileType(type),
@@ -77,7 +79,7 @@ export class SettingComponent {
       let tiles = this.arrService.tiles_component()
       tiles.push(newTile)
       this.arrService.tiles_component.set(tiles)
-      this.arrService.changedDisplay()
+      this.arrService.createNewGrid()
 
     } else {
       this.popService.message.set("Empty Field")
@@ -116,7 +118,7 @@ export class SettingComponent {
       let tiles = this.arrService.tiles_component()
       tiles.push(newTile)
       this.arrService.tiles_component.set(tiles)
-      this.arrService.changedDisplay()
+      this.arrService.createNewGrid()
 
     } else {
       this.popService.message.set("Empty Field")
@@ -144,7 +146,7 @@ export class SettingComponent {
     tiles.splice($index, 1);
     this.arrService.tiles_component.set(tiles)
     this.popService.message.set("Deleted")
-    this.arrService.changedDisplay()
+    this.arrService.createNewGrid()
     this.popService.affer.set(true)
 
     setTimeout(() => {

@@ -1,4 +1,16 @@
-import {Injectable, WritableSignal, signal, computed} from '@angular/core';
+import {Injectable, WritableSignal, signal, Type} from '@angular/core';
+import {BigInfoComponent} from '../tiles/big-info/big-info.component';
+import {CalenderComponent} from '../tiles/calender/calender.component';
+import {CertificateComponent} from '../tiles/certificate/certificate.component';
+import {ClockComponent} from '../tiles/clock/clock.component';
+import {ImgWrapperComponent} from '../tiles/img-wrapper/img-wrapper.component';
+import {InfoComponent} from '../tiles/info/info.component';
+import {ProfileTileComponent} from '../tiles/profile-tile/profile-tile.component';
+import {QuoteComponent} from '../tiles/quote/quote.component';
+import {SocialmediaComponent} from '../tiles/socialmedia/socialmedia.component';
+import {TetrisComponent} from '../tiles/tetris/tetris.component';
+import {TicTacToeComponent} from '../tiles/tic-tac-toe/tic-tac-toe.component';
+import {WeatherComponent} from '../tiles/weather/weather.component';
 
 
 
@@ -40,7 +52,6 @@ export class TileServiceService {
 
 
 
-
   constructor() {
       this.resetSize()
   }
@@ -48,7 +59,6 @@ export class TileServiceService {
   onScroll(event:Event){
     let elm = event.target as HTMLElement;
     this.currentWindow.set( Math.round(elm.scrollLeft / elm.offsetWidth));
-    console.log(this.currentWindow);
   }
 
   async resetSize() {
@@ -64,7 +74,7 @@ export class TileServiceService {
         this.setSize(120);
         break
       default:
-        this.setSize(90);
+        this.setSize(100);
     }
 
     let newState = this.state();
@@ -73,12 +83,22 @@ export class TileServiceService {
 
   }
 
+  getHorizontalPadding(width: number , size:number): number {
+    if(window.innerWidth < 641){
+      return 25;
+    }
+    else{
+      return ((width- (Math.floor(width / size) * size)) / 2 ) + this.state().constPadding
+    }
+
+  }
+
   setSize(size:number){
     let width = window.innerWidth- (2*this.state().constPadding);
     let height = window.innerHeight - (2*this.state().constPadding);
     this.state().countColumn = Math.floor(width / size);
     this.state().countRow = Math.floor(height / size);
-    this.state().paddingHorizontal = ((width- (Math.floor(width / size) * size)) / 2 ) + this.state().constPadding ;
+    this.state().paddingHorizontal = this.getHorizontalPadding(width, size);
     this.state().paddingVertical = ((height -(Math.floor(height/ size) * size)) / 2) + this.state().constPadding;
     this.state().tileSize =  size;
   }

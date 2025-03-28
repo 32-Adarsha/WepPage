@@ -7,14 +7,17 @@ export class DataService {
 
   constructor() { }
 
-  saveData<T>(id:string,data:T){
+  saveData(id:string,data:any){
+
     localStorage.setItem(id,JSON.stringify(data));
+
   }
 
-  getData<T>(id: string): T | null {
+  getData(id: string) {
     let data = localStorage.getItem(id);
+
     if (data) {
-      return JSON.parse(data) as T;
+      return JSON.parse(data)
     }
     return null;
   }

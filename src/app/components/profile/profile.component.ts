@@ -5,13 +5,7 @@ import {OrbitControls} from "three-stdlib";
 import {TileServiceService} from "../../service/tile-service.service";
 import {StatComponent} from '../../rComponent/stat/stat.component';
 import {Router} from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
-import {WindowComponent} from '../window/window.component';
-import {DynamicLoaderDirective} from '../../directives/dynamic-loader.directive';
 import {TicTacToeComponent} from '../../tiles/tic-tac-toe/tic-tac-toe.component';
-import {tile, tileType} from '../../service/arrangment.service';
-import {TetrisComponent} from '../../tiles/tetris/tetris.component';
-
 
 enum sOption {
   Profile,
@@ -40,13 +34,8 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
   loaded = false
   newLoaded = true
   selected :sOption = sOption.Profile
-  myInfo = {
-    "32" : "32 is more than just a number; it symbolizes my journey. It was the identity I received when I first entered school, marking a new chapter in my life. It reflects who I am, rooted in my original identity, 9032 D, and serves as a reminder of my past and the distance I've traveled.",
-    "info": "👋 Hi , I’m Adarsha. I recently graduated from Missouri State University, and I am actively seeking a software engineering role. I have a strong passion for problem-solving and enjoy tackling complex challenges with innovative solutions.",
-    "nepal":"The flag of Nepal on top of my cap is my identity.It's who I am and where I come from. I carry immense pride for my country. The cap, adorned with the logo of the Nepalese flag, symbolizes my deep connection to my roots, my unwavering loyalty to my heritage, and the strength that comes from my people.",
-    "football":"That shoe is no mere shoe. It is the embodiment of my unshakable passion for football. It has been an inseparable part of me since childhood, molding me into the person I am today. My devotion to the sport is profound, and over the years, I’ve gathered a collection of memories—each one a cherished reflection of the bond I’ve forged with the game. "
-  }
-  content = this.myInfo['info']
+
+
   fontSize:number = 30
   scrollCount = 0
 
@@ -54,6 +43,8 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
   private originalRotationX = 0;
   private originalRotationY = 0;
   private originalRotationZ = 0;
+
+
   touchStartX = 0
   touchMoveX = 0
 
@@ -116,7 +107,7 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
         this.loaded = true;
       })
       .catch((error) => {
-        console.error("Error loading model:", error);
+
       })
       .finally(() => {
 
@@ -283,9 +274,6 @@ export class ProfileComponent implements AfterViewInit , OnDestroy {
     this.scrolledDown = Math.round(elm.scrollTop / elm.clientHeight)
   }
 
-  getSize(wind: HTMLDivElement) {
-    return {x:wind.clientWidth,y:wind.clientHeight};
-  }
 
   protected readonly TicTacToeComponent = TicTacToeComponent;
 }

@@ -1,9 +1,58 @@
-<div  class="relative w-full h-full rounded p-2">
+<div  class="relative w-full h-full flex overflow-x-auto overflow-y-hidden rounded-2xl outline snap-x snap-mandatory  scrollwidth-none" #clientHeight>
+  <div [style.width.%]="100" class="absolute h-full bg-pink-400 snap-start">
+    <div class="relative w-full h-full flex flex-row p-2 ">
+      <div class="rounded-2xl h-full bg-white overflow-hidden">
+        <img class="w-full h-full object-contain" src="./tutorial/doubleTap.gif"/>
+      </div>
 
-    <div class="text-4xl bottom-2 text-green-400 w-full h-full flex flex-col justify-center items-center text-center silkscreen-bold  shadow-text">
-    Hi, I am Adarsha Kiran Khadka
+      <div class="silkscreen-bold  shadow-text flex justify-center items-center text-white h-full w-[38%]  rounded text-center">
+        <p class="break-words md:text-2xl text-sm">
+          Double Tap To Open Apps.
+        </p>
+      </div>
+
+      <div (click)="clientHeight.scrollBy(100 , 0)" class="absolute h-full w-[10%] top-0 right-0 text-white text-2xl silkscreen-bold shadow-text cursor-pointer ">
+        <div class="relative w-full h-full flex justify-center items-center">
+          <div class="absolute top-0 left-0 w-full h-full bg-gray-100 opacity-20 hover:opacity-100"></div>
+
+          <p class="elasticAnimation text-black select-none">
+            >
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="absolute left-[100%] w-full h-full bg-red-400 snap-start">
+    <div class="relative w-full h-full flex flex-row p-4">
+      <div class=" h-full rounded-2xl overflow-hidden ">
+        <img class="w-full h-full object-contain" src="./tutorial/drag.gif"/>
+      </div>
+
+      <div class="silkscreen-bold flex justify-center items-center shadow-text text-white text-2xl h-full w-[38%]  rounded text-center p-1">
+        <p class="break-words md:text-2xl text-sm">
+          Hold Mouse Button To Drag.
+        </p>
+      </div>
+
+      <div (click)="clientHeight.scroll(-100 , 0)" class="absolute h-full w-[10%] top-0 left-0 text-white text-2xl silkscreen-bold shadow-text cursor-pointer ">
+        <div class="relative w-full h-full flex justify-center items-center">
+          <div class="absolute top-0 left-0 w-full h-full bg-gray-100 opacity-20 hover:opacity-100"></div>
+
+          <p class="elasticAnimation text-blue-400 select-none">
+            <
+          </p>
+        </div>
+
+      </div>
 
     </div>
 
+
+  </div>
 
 </div>

@@ -34,7 +34,7 @@ export class TetrisServiceService {
   TempBlocks = computed(() => {
     let arr = Array(200).fill(TetrisType.n)
     let piece_shadow = this.piece().colors as string
-    this.shadow_point().forEach((item, index) => {
+    this.shadow_point().forEach((item) => {
       if (arr[item] == TetrisType.n) {
         arr[item] = `${piece_shadow} opacity-25`
       }
@@ -47,15 +47,7 @@ export class TetrisServiceService {
   })
 
 
-  getWidth(){
-    let windowWidth = Math.floor(window.innerWidth*0.9);
-    return Math.min(500, windowWidth).toString() + 'px';
 
-  }
-  tSize = computed(()=>{
-    let windowWidth = Math.floor(window.innerWidth*0.9);
-    return Math.min(500, windowWidth)/20 + "px";
-  })
   speed = 700;
   piece: WritableSignal<Blocks> = signal(new TBlock())
   status:WritableSignal<GameStatus> = signal(GameStatus.Home);
@@ -71,7 +63,7 @@ export class TetrisServiceService {
 
   // Event Action Function
   getNewHeight(){
-    let newHeight = window.innerHeight
+
 
   }
 
@@ -409,7 +401,7 @@ export class TetrisServiceService {
 
     window.addEventListener(
       'popstate',
-      (event) => {
+      () => {
         clearInterval(intervalID)
         this.gameReset()
       },

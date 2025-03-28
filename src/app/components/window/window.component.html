@@ -14,7 +14,7 @@
         @for(item of window_ ; track  $index) {
           <div cdkDrag cdkDragBoundary = ".boundary"  [cdkDragStartDelay]="600" [cdkDragFreeDragPosition]="item.position" (cdkDragStarted)="onDragStart(item.index , outerIndex)"  (cdkDragReleased)="onRelease($event , $index, item.index , item.type , outerIndex)" [style.z-index]="item.zIndex" [style.width.px]="getTileSize(item.type , item.name).width" [style.height.px]="getTileSize(item.type , item.name).height" class="absolute rounded-2xl  p-1 z-0 " >
 
-            <div [id]="getId($index)" (touchstart)="onMouseDown(getId($index), outerIndex , $index)" (touchend)="onMouseUp(getId($index) , outerIndex , $index)"  (mousedown)="onMouseDown(getId($index) , outerIndex , $index)" (mouseup)="onMouseUp(getId($index) , outerIndex , $index)" class="w-full h-full p-1 rounded-2xl ">
+            <div [id]="getId($index ,outerIndex)" (touchstart)="onMouseDown(getId($index, outerIndex), outerIndex , $index)" (touchend)="onMouseUp(getId($index ,outerIndex) , outerIndex , $index)"  (mousedown)="onMouseDown(getId($index ,outerIndex) , outerIndex , $index)" (mouseup)="onMouseUp(getId($index,outerIndex) , outerIndex , $index)" class="w-full h-full p-1 rounded-2xl ">
 
               <div class="relative w-full h-full p-1 hover:scale-110 duration-75">
                 <div id="{{item.name}}"  class=" w-full h-full duration-100 ">
@@ -49,8 +49,7 @@
 
 
 @if(popService.visible()){
-  <div class="absolute top-0 left-0 w-full h-full backdrop-blur-sm z-10 flex justify-center items-center">
-
+  <div class="absolute top-0 left-0 w-full h-full backdrop-blur-sm z-100 flex justify-center items-center">
     <div class=" w-[98%] h-[90%] md:w-[80%] lg:w-[60%] flex flex-col gap-0.5  rounded z-10">
       <div (click)="popService.visible.set(false)" class="w-full h-[50px] bg-red-400 px-4 rounded silkscreen-bold cursor-pointer flex items-center outline ">
         <span class="hover:scale-125 duration-75 hover:text-white shadow-text">x</span>

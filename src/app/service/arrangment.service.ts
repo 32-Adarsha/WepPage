@@ -1,8 +1,6 @@
 import {inject, Injectable, signal, Type, WritableSignal} from '@angular/core';
 import {TileServiceService} from './tile-service.service';
-import {single} from 'rxjs';
 import {DataService} from './data.service';
-import {Dynamic} from '../models/dynamic';
 import {CalenderComponent} from '../tiles/calender/calender.component';
 import {ClockComponent} from '../tiles/clock/clock.component';
 import {ProfileTileComponent} from '../tiles/profile-tile/profile-tile.component';
@@ -11,10 +9,11 @@ import {TetrisComponent} from '../tiles/tetris/tetris.component';
 import {CertificateComponent} from '../tiles/certificate/certificate.component';
 import {SocialmediaComponent} from '../tiles/socialmedia/socialmedia.component';
 import {WeatherComponent} from '../tiles/weather/weather.component';
-import {QuoteComponent} from '../tiles/quote/quote.component';
 import {InfoComponent} from '../tiles/info/info.component';
-import {BigInfoComponent} from '../tiles/big-info/big-info.component';
 import {ImgWrapperComponent} from '../tiles/img-wrapper/img-wrapper.component';
+import {BigInfoComponent} from '../tiles/big-info/big-info.component';
+import {LocalsaveService} from './localsave.service';
+
 
 
 // types and field
@@ -56,10 +55,11 @@ export class ArrangementService {
   displayTiles : WritableSignal<tile[][]> = signal([])
   tiles: WritableSignal<tile[]> = signal([]);
   tileService = inject(TileServiceService);
-  dataService = inject(DataService);
+  lSave = inject(LocalsaveService)
+
   occupiedSpace:number[][] = []
 
-  custom_tile_component:WritableSignal<tile[]> =signal([])
+
   tiles_component:WritableSignal< tile[]> =signal( [
     {
       component: InfoComponent,
@@ -74,18 +74,18 @@ export class ArrangementService {
       builtIn:true
     },
 
-    {
-      component: QuoteComponent,
-      position: { x: 2, y: 0 }, // Set position accordingly
-      index: [2],
-      type: tileType.horizontal,
-      zIndex: 1,
-      display:true,
-      data: undefined,
-      name:"Quote",
-      id:"Quote",
-      builtIn:true
-    },
+    // {
+    //   component: QuoteComponent,
+    //   position: { x: 2, y: 0 }, // Set position accordingly
+    //   index: [2],
+    //   type: tileType.horizontal,
+    //   zIndex: 1,
+    //   display:true,
+    //   data: undefined,
+    //   name:"Quote",
+    //   id:"Quote",
+    //   builtIn:true
+    // },
     {
       component: ClockComponent,
       position: { x: 3, y: 0 }, // Set position accordingly
@@ -96,6 +96,18 @@ export class ArrangementService {
       data: undefined,
       name: "Clock",
       id:"Clock",
+      builtIn:true
+    },
+    {
+      component: BigInfoComponent,
+      position: { x: 3, y: 0 },
+      index: [3],
+      type: tileType.xl,
+      zIndex: 1,
+      display:true,
+      data: undefined,
+      name: "Guide",
+      id:"Guide",
       builtIn:true
     },
     {
@@ -234,16 +246,60 @@ export class ArrangementService {
 
 
 
+  getSaveData(){
+    let dimension = this.tileService.state().countColumn.toString() + this.tileService.state().countRow.toString()
+    let data = this.lSave.getData(dimension)
+    if(data.v){
+      return data.v
+    }else if(data.hasGrid){
+      this.actiontaken()
+      return null
+    } else {
+      this.actiontaken()
+      this.createNewGrid()
+      return null
+    }
+  }
+
+  saveCurrentData(){
+    let dimension = this.tileService.state().countColumn.toString() + this.tileService.state().countRow.toString()
+    this.lSave.saveData(dimension , this.tiles_component() ,  this.displayTiles() , this.occupiedSpace)
+  }
 
 
   constructor() {
-    this.allTile = this.tiles_component().filter(item => item.display)
-    this.setTileInWindow()
+
+      this.changedDisplay()
+
   }
 
   changedDisplay(){
+    let data = this.getSaveData()
+
+    if(data){
+      this.displayTiles.set(data.d)
+      this.tiles_component.set(data.all)
+      this.occupiedSpace = data.o
+    } else {
+
+
+    }
+  }
+
+  actiontaken(){
     this.allTile = this.tiles_component().filter(item => item.display)
     this.setTileInWindow()
+    this.saveCurrentData()
+
+  }
+
+
+  createNewGrid(){
+    this.allTile = this.tiles_component().filter(item => item.display)
+    console.log(this.allTile)
+    this.setTileInWindow()
+    let dimension = this.tileService.state().countColumn.toString() + this.tileService.state().countRow.toString()
+    this.lSave.createNewMap(dimension , this.tiles_component() , this.displayTiles() , this.occupiedSpace)
   }
 
   get2DArray(pos: number):position {
@@ -258,7 +314,7 @@ export class ArrangementService {
     let newTiles = this.tiles()
     let newPos =  this.nearestPosition(currPos)
     let item_positions = this.getTileOccupancy(type , newPos)
-    let dimension = this.getDimension()
+
     if(this.isOccupied(item_positions , window)){
       newTiles[idList].position = pevPos
       this.addPosition(newTiles[idList].index , window)
@@ -272,6 +328,7 @@ export class ArrangementService {
       //this.dataService.saveData<number[][]>(dimension+"_o" , this.occupiedSpace)
     }
     this.tiles.set(newTiles);
+    this.saveCurrentData()
   }
 
   nearestPosition(pos: position): position {
@@ -310,7 +367,6 @@ export class ArrangementService {
   }
 
   setTileInWindow(){
-    let dimension = this.getDimension()
 
       let temp_tiles = this.allTile;
       let prev = temp_tiles.length
@@ -331,11 +387,10 @@ export class ArrangementService {
         this.displayTiles.set(new_windows_tile)
     }
 
+    // this.saveCurrentConfig()
+
   }
 
-  getDimension(){
-    return this.tileService.state().countColumn.toString() + this.tileService.state().countRow.toString()
-  }
 
 
 
