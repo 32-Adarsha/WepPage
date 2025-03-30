@@ -90,6 +90,7 @@ export class LocalsaveService {
 
     if(data){
       newData.cTile = new Map(data)
+      console.log(newData)
       let value = newData.cTile.get(dimension)
       if(value){
 
