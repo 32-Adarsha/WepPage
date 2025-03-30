@@ -26,8 +26,8 @@ import {CertificateComponent} from '../tiles/certificate/certificate.component';
   type : tileType,
   zIndex: number,
   display:boolean,
-  data:any
-  name:string
+  data:any,
+  name:string,
   builtIn:boolean,
 }
 
@@ -127,7 +127,7 @@ export class LocalsaveService {
       type: t.type,
       zIndex: t.zIndex,
       id:t.id,
-      component:t.component.name
+      component:t.compName
     }
 
     return newSaveTile;
@@ -143,6 +143,7 @@ export class LocalsaveService {
       type: t.type,
       zIndex: t.zIndex,
       id:t.id,
+      compName:t.component,
       component:this.getComponentFromName(t.component)
     }
 
@@ -151,32 +152,35 @@ export class LocalsaveService {
   getComponentFromName(name:string){
 
     switch (name) {
-      case InfoComponent.name:
+      case "InfoComponent":
         return InfoComponent;
-      case BigInfoComponent.name:
+      case "BigInfoComponent":
         return BigInfoComponent;
-      case CalenderComponent.name:
+      case "CalenderComponent":
         return CalenderComponent;
-      case ClockComponent.name:
+      case "ClockComponent":
         return ClockComponent;
-      case ImgWrapperComponent.name:
+      case "ImgWrapperComponent":
         return ImgWrapperComponent;
-      case ProfileTileComponent.name:
+      case "ProfileTileComponent":
         return ProfileTileComponent;
-      case QuoteComponent.name:
+      case "QuoteComponent":
         return QuoteComponent;
-      case SocialmediaComponent.name:
+      case "SocialmediaComponent":
         return SocialmediaComponent;
-      case TetrisComponent.name:
+      case "TetrisComponent":
         return TetrisComponent;
-      case TicTacToeComponent.name:
+      case "TicTacToeComponent":
         return TicTacToeComponent;
-      case CertificateComponent.name:
+      case "CertificateComponent":
         return CertificateComponent;
       default:
           return WeatherComponent;
 
     }
   }
+
+
+
 
 }

@@ -72,6 +72,7 @@ export class SettingComponent {
       name:"",
       zIndex:1,
       id:name,
+      compName:"InfoComponent",
       builtIn:false
     }
     if(name != '' && data.value != ''){
@@ -110,6 +111,7 @@ export class SettingComponent {
       data: {imgSource:value , route:value2},
       name:value4,
       id:value3,
+      compName:"SocialmediaComponent",
       builtIn:false
     }
 

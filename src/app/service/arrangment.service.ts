@@ -39,9 +39,10 @@ export type tile = {
   type : tileType,
   zIndex: number,
   display:boolean,
-  data:any
-  name:string
+  data:any,
+  name:string,
   builtIn:boolean,
+  compName:string
 }
 
 
@@ -71,6 +72,7 @@ export class ArrangementService {
       data: {value:"Welcome!" , color:"text-white"},
       name: "",
       id:"Welcome",
+      compName : "InfoComponent",
       builtIn:true
     },
 
@@ -96,6 +98,7 @@ export class ArrangementService {
       data: undefined,
       name: "Clock",
       id:"Clock",
+      compName : "ClockComponent",
       builtIn:true
     },
     {
@@ -108,6 +111,7 @@ export class ArrangementService {
       data: undefined,
       name: "Guide",
       id:"Guide",
+      compName : "BigInfoComponent",
       builtIn:true
     },
     {
@@ -120,6 +124,7 @@ export class ArrangementService {
       data: undefined,
       name:"Weather",
       id:"Weather",
+      compName : "WeatherComponent",
       builtIn:true
     },
     {
@@ -132,6 +137,7 @@ export class ArrangementService {
       data: { imgSource: "https://img.icons8.com/plasticine/100/resume.png" , route:"./file/Resume.pdf" },
       name: "Resume",
       id:"Resume",
+      compName : "SocialmediaComponent",
       builtIn:true
     },
     {
@@ -144,6 +150,7 @@ export class ArrangementService {
       data: { imgSource: "https://img.icons8.com/fluency/144/linkedin.png" , route:"https://www.linkedin.com/in/adarsha-kiran-khadka-53059b20b/" },
       name:"Linkedin",
       id:"Linkedin",
+      compName : "SocialmediaComponent",
       builtIn:true
     },
     {
@@ -156,6 +163,7 @@ export class ArrangementService {
       data: { imgSource: "https://img.icons8.com/fluency/144/github.png" , route:"https://github.com/32-Adarsha?tab=repositories" },
       name:"Github",
       id:"Github",
+      compName : "SocialmediaComponent",
       builtIn:true
     },
     {
@@ -168,6 +176,7 @@ export class ArrangementService {
       data: undefined,
       name: "Calender",
       id:"Calender",
+      compName : "CalenderComponent",
       builtIn:true
     },
     {
@@ -180,6 +189,7 @@ export class ArrangementService {
       data: undefined,
       name: "TicTacToe",
       id:"TicTacToe",
+      compName : "TicTacToeComponent",
       builtIn:true
     },
     {
@@ -192,6 +202,7 @@ export class ArrangementService {
       data: undefined,
       name: "Profile",
       id:"Profile",
+      compName : "ProfileTileComponent",
       builtIn:true
     },
     {
@@ -204,6 +215,7 @@ export class ArrangementService {
       data: undefined,
       name: "Tetris",
       id:"Tetris",
+      compName : "TetrisComponent",
       builtIn:true
     },
     {
@@ -216,6 +228,7 @@ export class ArrangementService {
       data: './images/coursera.png',
       name:"Machine Learning Certificate",
       id:"Machine Learning Certificate",
+      compName : "CertificateComponent",
       builtIn:true
     },
     {
@@ -228,6 +241,7 @@ export class ArrangementService {
       data: './images/microsoft.png',
       name: 'C# Certificate',
       id:"C# Certificate",
+      compName : "CertificateComponent",
       builtIn:true
     },
     {
@@ -240,6 +254,7 @@ export class ArrangementService {
       data: "name",
       name: "Setting",
       id:"setting",
+      compName : "ImgWrapperComponent",
       builtIn:true
     },
   ])
